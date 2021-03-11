@@ -6,6 +6,8 @@
 .tscache
 .vscode
 .idea
+webpack.config.js
+src
 docs
 node_modules
 test
