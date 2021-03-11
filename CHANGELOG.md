@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/forward-distribution/bridget/compare/v1.2.0...v1.2.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* Fix module resolution ([b4a7798](https://github.com/forward-distribution/bridget/commit/b4a7798d6d0c0622e4b41927f24058650d304b83))
+
 ## [1.2.0](https://github.com/forward-distribution/bridget/compare/v1.1.0...v1.2.0) (2021-03-11)
 
 
