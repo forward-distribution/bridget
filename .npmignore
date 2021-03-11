@@ -1,0 +1,12 @@
+.gitmodules
+.github
+.gitignore
+.npmignore
+.travis.yml
+.tscache
+.vscode
+.idea
+docs
+node_modules
+test
+tools

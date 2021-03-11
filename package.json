@@ -7,7 +7,6 @@
     "type": "git",
     "url": "https://github.com/forward-distribution/bridget.git"
   },
-  "type": "module",
   "version": "1.0.2",
   "description": "",
   "main": "index.js",
