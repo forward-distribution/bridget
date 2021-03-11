@@ -12,7 +12,7 @@
     "dist"
   ],
   "description": "",
-  "module": "./src/bridget.js",
+  "main": "./dist/bridget.js",
   "scripts": {
     "release": "standard-version && git push --follow-tags origin master",
     "prebuild": "rimraf dist",
