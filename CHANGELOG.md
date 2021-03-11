@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/forward-distribution/bridget/compare/v1.2.1...v1.2.2) (2021-03-11)
+
+
+### Bug Fixes
+
+* typo ([f24b61d](https://github.com/forward-distribution/bridget/commit/f24b61dda7602be51ef8e21061ccc006d595e93b))
+
 ### [1.2.1](https://github.com/forward-distribution/bridget/compare/v1.2.0...v1.2.1) (2021-03-11)
 
 
