@@ -9,7 +9,7 @@ module.exports = {
   output: {
     library: 'bridget',
     libraryTarget: 'umd',
-    filename: 'bridger.js',
+    filename: 'bridget.js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
