@@ -7,9 +7,10 @@
     "type": "git",
     "url": "https://github.com/forward-distribution/bridget.git"
   },
+  "type": "module",
   "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./src/bridget.js",
   "scripts": {
     "release": "standard-version && git push --follow-tags origin master"
   },
