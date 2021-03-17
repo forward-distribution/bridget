@@ -1,5 +1,5 @@
 import ajv from 'ajv'
-import betterAjvErrors from 'better-ajv-errors'
+import betterAjvErrors from '@sidvind/better-ajv-errors'
 import * as shareArticle from './shareArticle.json'
 
 const buildAjv = () => {
