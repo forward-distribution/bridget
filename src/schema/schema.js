@@ -1,9 +1,6 @@
 import ajv from 'ajv'
 import betterAjvErrors from 'better-ajv-errors'
-import { createRequire } from 'module'
-
-const require = createRequire(import.meta.url)
-const shareArticle = require('./shareArticle.json')
+import * as shareArticle from './shareArticle.json'
 
 const buildAjv = () => {
   const validator = ajv({ verbose: true, useDefaults: true, allErrors: true, jsonPointers: true })
