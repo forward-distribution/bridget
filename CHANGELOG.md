@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/forward-distribution/bridget/compare/v1.3.0...v1.3.1) (2021-03-17)
+
+
+### Bug Fixes
+
+* remove require statement - broke build ([12f5c88](https://github.com/forward-distribution/bridget/commit/12f5c88145b9fd70baf06b13f1b87dc191a1e840))
+
 ## [1.3.0](https://github.com/forward-distribution/bridget/compare/v1.2.2...v1.3.0) (2021-03-17)
 
 
