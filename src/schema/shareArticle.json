@@ -1,0 +1,20 @@
+{
+    "$id": "shareArticle.json#",
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "title",
+      "description",
+      "url"
+    ]
+  }

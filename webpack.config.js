@@ -1,7 +1,5 @@
 
-const path = require('path');
-
-const include = path.join(__dirname, 'src')
+const path = require('path')
 
 module.exports = {
   mode: 'production',
@@ -10,19 +8,19 @@ module.exports = {
     library: 'bridget',
     libraryTarget: 'umd',
     filename: 'bridget.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
       {
         test: /\.js?$/,
         exclude: /(node_modules)/,
-        use: 'babel-loader',
-      },
-    ],
+        use: 'babel-loader'
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js']
   },
-  devtool:"source-map",
+  devtool: 'source-map'
 }
