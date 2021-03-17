@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/forward-distribution/bridget/compare/v1.3.1...v1.3.2) (2021-03-17)
+
+
+### Bug Fixes
+
+* drop support for legacy node ([0ff8b48](https://github.com/forward-distribution/bridget/commit/0ff8b48c7df3c36704e463be99d8173ab61a0039))
+
 ### [1.3.1](https://github.com/forward-distribution/bridget/compare/v1.3.0...v1.3.1) (2021-03-17)
 
 
