@@ -7,7 +7,9 @@ module.exports = {
   output: {
     library: 'bridget',
     libraryTarget: 'umd',
+    umdNamedDefine: true,
     filename: 'bridget.js',
+    globalObject: 'this',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
