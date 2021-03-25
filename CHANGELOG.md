@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](https://github.com/forward-distribution/bridget/compare/v1.3.3...v1.3.4) (2021-03-25)
+
+
+### Bug Fixes
+
+* set bridget to be used in global object ([f07b055](https://github.com/forward-distribution/bridget/commit/f07b05581ab53f6b30086076192f72a8a7b26cb6))
+
 ### [1.3.3](https://github.com/forward-distribution/bridget/compare/v1.3.2...v1.3.3) (2021-03-17)
 
 ### [1.3.2](https://github.com/forward-distribution/bridget/compare/v1.3.1...v1.3.2) (2021-03-17)
