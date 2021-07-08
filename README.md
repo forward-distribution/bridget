@@ -3,20 +3,19 @@
 This repository contains the bridging functionality — aptly named Bridget — that will be used as a communication tool between the clients (usually web deliveries) & the Forward Publishing mobile app's webview implementation.
 
 # Why a bridge
- If a client from our Forward Publishing suite requires a mobile app. We offer a native solution to their publishing platform, i.e the web delivery. 
+ If a client from our Forward Publishing suite requires a mobile app, we offer a native solution to their publishing platform, i.e their web delivery. 
  
- Although it mirrors the web delivery in content and simply displays it in a mobile friendly webview, some functionality needs to be communicated from the web world to the mobile native world. Linking or navigation in the web does not behave the same way in the mobile app, simply changing a URL in a webview will simply not do, as it destroys the native immersion and context of what's happenin within the app is lost. 
+ Although it mirrors the web delivery 1:1 in terms of content and displays it in a mobile friendly webview, some functionality needs to be communicated from the web world to the mobile native world. Linking or navigation in the web does not behave the same way in the mobile app, simply changing a URL in a webview will not do, as it destroys the native immersion and context of what's happening within the app is lost. 
 
- That's where Bridget comes in; we can think of it as a thin communicational layer between the web delivery and the mobile app, where functionality in the app is being invoked by message passing from the bridge, and vice versa.
-# Changelog
-
-See the [change log](./CHANGELOG.md)
+ That's where Bridget comes in; we can think of it as a thin communicational layer between the web delivery and the mobile app, where functionality in the app is being invoked by message passing (think of Android intents) from the bridge, and vice versa.
 
 # [Integration Guide](#integration-guide)
 The basis of this document is to explain the process of integrating `bridget` into an existing web delivery with the sole purpose of adding bridging support to the website when browsed through the context of a mobile app via a WebView.
 
 ## [Prerequisites](#prerequisites)
 ### Access to Github Package repostiory
+
+> Only if you want to use the github package, instead of vanilla NPM
 
 Since this is a private org. package, you will need to have access to the registry it first in order to install it.
 
@@ -50,7 +49,7 @@ This needs to be done only once.
 
 ### [Installation via script tag](#install-via-script-tag)
 ```html
-<script src="//some-cdn.com/bridget.min.js"></script>
+<script src="https://unpkg.com/@forward-distribution/bridget"></script>
 <script type="text/javascript">
   // Initialize the module. Must be called before any other methods
   bridget.init();
@@ -59,7 +58,7 @@ This needs to be done only once.
 Put the above script tags in between the <head> tags of your HTML page. It will attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
 
 ## [Alternative installation via NPM](#alternative-installation-via-npm)
-The module is available on NPM (github package) which can be used if you’re using a front-end packager like Browserify or Webpack:
+The module is available on NPM & as a github package which can be used if you’re using a front-end packager like Browserify or Webpack:
 
 Just run
 
@@ -101,7 +100,7 @@ As an example, handling a click event on the share action of an article.
 
 ## Node version
 
-The tool works with node 14.x so make sure you have that
+The module works with node 14.x so make sure you have that
 installed first.
  On a Mac with [Homebrew](https://brew.sh) do:
 
@@ -139,4 +138,8 @@ standard-version && git push --follow-tags origin master
 ```
 
 It uses [standard-version](https://github.com/conventional-changelog/standard-version) for versioning which under the hood uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to also auto generate changelogs for releases. So please stick to using the convention commits specification when creating commit messages, and the changelog will look neat and reflect the repo changes.
+
+# Changelog
+
+See the [change log](./CHANGELOG.md)
 
