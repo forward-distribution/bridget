@@ -24,7 +24,7 @@ const parseErrors = (schema, spec, errors) => {
 }
 
 export const schemaIds = {
-  shareArticle: 'shareArticle.json#'
+  shareArticle: shareArticle.$id
 }
 
 export default buildAjv
