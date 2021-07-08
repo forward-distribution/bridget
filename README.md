@@ -92,6 +92,9 @@ standard-version && git push --follow-tags origin master
 
 It uses [standard-version](https://github.com/conventional-changelog/standard-version) for versioning which under the hood uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to also auto generate changelogs for releases. So please stick to using the convention commits specification when creating commit messages, and the changelog will look neat and reflect the repo changes.
 
-# API
-
-> TODO
+# Integration Guide
+> Requirements
+> How to install (npm & cdn)
+> Usage (init/bootstrapping)
+> Preparing your delivery for bridget usage
+> API documentation
