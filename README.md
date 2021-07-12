@@ -12,54 +12,11 @@ This repository contains the bridging functionality — aptly named Bridget — 
 
  That's where Bridget comes in; we can think of it as a thin communicational layer between the web delivery and the mobile app, where functionality in the app is being invoked by message passing (think of Android intents) from the bridge, and vice versa.
 
-# [Integration Guide](#integration-guide)
+# [Docs](#docs)
 
-Read our integration guide [here](./docs/integration.md). If any steps are unclear or something is missing, please [create a detailed issue](https://github.com/forward-distribution/bridget/issues/new).
-
-# [Development](#development)
-
-## Node version
-
-The module works with node 14.x so make sure you have that
-installed first.
- On a Mac with [Homebrew](https://brew.sh) do:
-
-```sh
-$ brew install node@14
-```
-
-Otherwise see [the official guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-
-
-**Requirements**:
-
-- node 14.x
-- npm
-
-After they are installed run:
-
-```
-$ npm i
-```
-
-Your local environment should be set up now.
-
-# Cutting a release
-
-Cutting a release and publishing is easy, all you need to do is run:
-
-```
-$ npm run release
-```
-
-A few things to keep in mind which are happening in the background, `npm run release` calls this script:
-```
-$ standard-version && git push --follow-tags origin master
-```
-
-It uses [standard-version](https://github.com/conventional-changelog/standard-version) for versioning which under the hood uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to also auto generate changelogs for releases. So please stick to using the convention commits specification when creating commit messages, and the changelog will look neat and reflect the repo changes.
-
-# Changelog
+Check out the [documentation](./docs/index.md). 
+ 
+# [Changelog](#changelog)
 
 See the [change log](./CHANGELOG.md) for the latest release information.
 
