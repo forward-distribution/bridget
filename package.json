@@ -36,7 +36,6 @@
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
-    "@sidvind/better-ajv-errors": "^0.8.0",
     "ajv": "^6.12.6"
   }
 }

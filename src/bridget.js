@@ -1,5 +1,17 @@
 import bridge from './bridge/bridge.js'
 
+function applyStyles () {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  style.appendChild(
+    document.createTextNode('header.fp-main-header {display:none;}')
+  )
+  style.appendChild(
+    document.createTextNode('footer[data-t-name="Footer"] {display:none;}')
+  )
+  document.head.append(style)
+}
+
 function isInternalLink (url, host) {
   return url.host === host
 }
@@ -9,7 +21,7 @@ function isInternalLink (url, host) {
 // article.
 
 function isArticle (url) {
-  const re = new RegExp('^[a-zA-Z-]+-[0-9]+$', 'g')
+  const re = /^[a-zA-Z-]+-[0-9]+$', 'g'/
   return re.test(url.split('/').pop())
 }
 
@@ -55,6 +67,7 @@ const linkingHandler = event => {
 }
 
 if (window.ReactNativeWebView) {
+  applyStyles()
   document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', e => {
       const element = e.target.closest('a')
@@ -62,5 +75,3 @@ if (window.ReactNativeWebView) {
     }, { capture: true })
   })
 }
-
-export default bridge

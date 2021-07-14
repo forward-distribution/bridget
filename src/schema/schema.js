@@ -1,5 +1,4 @@
 import ajv from 'ajv'
-import betterAjvErrors from '@sidvind/better-ajv-errors'
 import * as shareArticle from './shareArticle.json'
 
 const buildAjv = () => {
@@ -19,8 +18,7 @@ export const validateBeforeCall = (schemaId, spec, v, fn) => {
 }
 
 const parseErrors = (schema, spec, errors) => {
-  const output = betterAjvErrors(schema, spec, errors)
-  console.error(output)
+  console.error(errors)
 }
 
 export const schemaIds = {
