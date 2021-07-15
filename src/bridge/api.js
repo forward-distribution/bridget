@@ -1,7 +1,7 @@
 import schemaValidator, {
   schemaIds,
   validateBeforeCall
-} from '../schema/schema.js'
+} from '../schema'
 
 const v = schemaValidator()
 
