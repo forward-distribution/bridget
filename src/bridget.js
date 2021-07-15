@@ -1,6 +1,6 @@
 import bridge from './bridge/bridge.js'
 
-function applyStyles () {
+function applyStyles() {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.appendChild(
@@ -12,7 +12,7 @@ function applyStyles () {
   document.head.append(style)
 }
 
-function isInternalLink (url, host) {
+function isInternalLink(url, host) {
   return url.host === host
 }
 
@@ -20,7 +20,7 @@ function isInternalLink (url, host) {
 // be replaced by a client-side regex detailing what we should look for in an
 // article.
 
-function isArticle (url) {
+function isArticle(url) {
   const re = /^[a-zA-Z-]+-[0-9]+$', 'g'/
   return re.test(url.split('/').pop())
 }
