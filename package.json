@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "description": "",
+  "description": "Bridging mechanism for a two-way communication system between a webview & web (js).",
   "main": "./dist/bridget.js",
   "scripts": {
     "release": "standard-version && git push --follow-tags origin master",

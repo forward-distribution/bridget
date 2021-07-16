@@ -3,11 +3,6 @@ const path = require('path')
 const libraryName = 'bridget'
 const outputFile = `${libraryName}.js`
 module.exports = {
-  // uncomment if you want to see more output
-  // mode: 'development',
-  // optimization: {
-  //   usedExports: true
-  // },
   entry: './src/bridget.js',
   output: {
     library: {
@@ -17,7 +12,7 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true,
     filename: outputFile,
-    globalObject: 'typeof window !== \'undefined\' ? window : this',
+    globalObject: 'typeof window !== undefined ? window : this',
     path: path.resolve(__dirname, 'dist')
   },
   module: {

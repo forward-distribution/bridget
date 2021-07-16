@@ -1,6 +1,6 @@
 import bridge from './api.js'
 
-function hijackLinking() {
+const hijackLinking = () => {
   document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', e => {
       const element = e.target.closest('a')
@@ -9,7 +9,8 @@ function hijackLinking() {
   })
 }
 
-function applyStyles() {
+// hardcoded assumption from BMG
+const applyStyles = () => {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.appendChild(
@@ -21,28 +22,26 @@ function applyStyles() {
   document.head.append(style)
 }
 
-function extractArticleMetadata() {
+const extractArticleMetadata = () => {
   const documentMeta = JSON.parse(document.querySelector("script[type='application/ld+json']").innerHTML)
   const { headline, description, mainEntityOfPage } = documentMeta
 
   return { title: headline, description, url: mainEntityOfPage['@id'] }
 }
 
-function isInternalLink(url, host) {
+const isInternalLink = (url, host) => {
   return url.host === host
 }
-
-function isSharingLink(element) {
+// hardcoded assumption from BMG
+const isSharingLink = (element) => {
   const { service } = element.dataset
-  console.log('dataset', element.dataset)
   return service
 }
 
 // This is a placeholder check for testing purposes on BMG. It would ideally
 // be replaced by a client-side regex detailing what we should look for in an
 // article.
-
-function isArticle(url) {
+const isArticle = (url) => {
   const re = /^[a-zA-Z-]+-[0-9]+$', 'g'/
   return re.test(url.split('/').pop())
 }
@@ -95,7 +94,7 @@ const linkingHandler = event => {
   }
 }
 
-export function initBridget(opts = {}) {
+export const initBridget = (opts = {}) => {
   applyStyles()
   hijackLinking()
 }
