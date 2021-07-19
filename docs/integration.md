@@ -3,26 +3,25 @@ The basis of this document is to chowcase the process of integrating `bridget` i
 
 ## [Prerequisites](#prerequisites)
 
-#TODO - 
+This integration guide assumes you already have a web delivery that serves content & a mobile app is being setup for that  particular web delivery.
 
 ## [Requirements](#requirements)
 
 #TODO - write requirements that the web delivery needs to satisfy in order for the module to work
 
 ## [How to install](#how-to-install)
-> The module is designed to run in the browser. It can be used in node as well, but the primary target is  for  the browser.
+> The module is designed to run in the browser. It can also be used in a server (node) environment via npm.
 
 ### [Installation via script tag](#install-via-script-tag)
 ```html
 <script src="https://unpkg.com/@forward-distribution/bridget">
   // The module will bootstrap itself when imported, if it is in the correct context (mobile webview)
 </script>
-
 ```
 Put the above script tags in between the <head> tags of your HTML page. It will attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
 
 ## [Alternative installation via NPM](#alternative-installation-via-npm)
-The module is available on NPM & as a github package which can be used if you’re using a front-end packager like Browserify or Webpack:
+The module is available on NPM, if you’re using a front-end packager like Browserify or Webpack:
 
 Just run
 
@@ -30,15 +29,15 @@ Just run
 npm install -g @forward-distribution/bridget
 ```
 
-You can then `require` or `import` the lib like any other module
+You can then `require` or `import` the lib like any other module.
 
-## [Usage](#usage)
+## [Internals](#internal)
 ### Reacting to user actions
 Actions are something that a user performed on your website such as “*Clicked on a teaser*”, "*Navigated to a page/department*", or “*Attempted to share*”.
 
 In the context of your webpage, the browser itself or your custom JavaScript code handles these user events, and reacts to them accordingly. 
 
-In the mobile context, however, these actions need to be propagated and offloaded from the browser (webview), their default behaviour prevented, and sent onto the app, to be handled natively. 
+In the mobile context, however, these actions need to be propagated and offloaded from the browser (webview) and sent onto the mobile app to be handled natively. 
 
 This is where you, as an integrator, will need to have bridget integrated, so these specific actions can  be handled (see [api reference](#api)).
 
@@ -50,11 +49,11 @@ As an example, internally in the bridge, handling an `onclick` event originating
 		e.stopPropagation()
         // data can come from anywhere; page meta, element attribute, data attributes, linked data.
         // this particular example uses data attriutes
-		const { title, url } = e.currentTarget.dataset
-		bridge.navigateToDocument({ url, title })
+		const { title, url } = some.meta.data
+		bridge.navigateToDoc({ url, title })
     }
 ```
-Where `onClickListener` is something `bridget` binds to the webpage for all elements or specific elements; in this case, it's for all anchor tags.
+`onClickListener` is just an implementation detail, nothing you as an integrator should worry about; it is something `bridget` binds to the webpage for all elements or specific elements; in this case, it's for all anchor tags.
 
 # [API](#api)
 
@@ -64,115 +63,147 @@ In the API segment of the integration guide we will define all of the specific c
 
 The basic idea of how we handle essential click events within the WebView is through hijacking the `onlick` events within the web delivery.
 
-What we mean by this is having `onclick` listeners that `bridget` registers for specific `html` elements, further propagate those events in order to decide (internally) how they should be handled, and which actions should be messaged back to the app and handled natively. 
+What we mean by this is having:
+- `onclick` listeners that `bridget` registers for specific `html` elements 
+- propagate those events from the listeners to decide (internally) how they should be handled
+- decide what action should be sent back to the app to be handled natively. 
 
 In other words, whenever something is clicked `bridget` is aware of this and uses some underlying data (metadata) and figures out which appropriate action to take.
 
-## Linking
+## [Linking](#api-linking)
 
-The linking part of the API focuses on two things, article, page & external navigation. 
+The linking part of the API focuses on two things, document & external navigation. 
 
 Essentially, anywhere in the app where you have a link (e.g. `<a href='http://...'> link </a>` tag)  `bridget` will hijack the `onclick` (`ontap` | `onpress`) event of this element and do something else instead, provided the correct data properties have been set or are present on the web page. 
 
-If such data (metadata) is not available, nothing will happen, i.e. the event will just propagate to the other available listeners that are registered to it.
+If such data (metadata) is not available, nothing will happen, i.e. the event will continue its normal flow.
 
 How it works internally
-- All the navigation events happen on the anchor (`<a>`) tags. If the anchor tag contains an internal URL, then native navigation happens. If the anchor tag contains external an URL, then the external in-app browser is opened. This happens by default, and you don't need to setup or configure anything.
-- If you want to override this behaviour, then the following things need to be added as metadata to your anchor tags.
+- All  navigation events originate from anchor (`<a>`) tags. 
+- If the anchor tag contains an internal URL, then native navigation happens. 
+- If the anchor tag contains an external URL, then the external in-app browser is opened. 
 
-| attributes|value|description|optional|
-|---|---|---|---|
-| data-webview|true|Tells us whether we should process this tag when in the context of a webview|false|
-|data-src|`http://example.delivery/article/some-article-href`|The destination where this anchor tag is linking (navigating) to.|false|
+This happens by default, and you don't need to setup or configure anything in your codebase.
 
-**Example**:
-```js
-	<a href="http://example.delivery/article/some-article-href">Teaser</a>
-```
-would become 
-```js
-	<a 
-      data-webview="true"
-      data-src="http://example.delivery/article/some-article-href"
-      href="http://example.delivery/article/some-article-href">
-      Teaser
-    </a>
-```
-- If you want to enhance the behaviour of navigation (native title for example), then the following optional attributes can be added to your anchor tags.
-  
+### Exposed API
 
-|attributes|value|description|optional|
-|---|---|---|---|
-| data-title|Some title|Tells us whether we should process this tag when in the context of a webview|true|
-- If you want to manually trigger the navigation events (native navigation, in-app browser), then you can use the exposed internal API from `bridget`:
+ If you want to manually trigger the navigation events (native navigation, in-app browser), then you can use the exposed internal API from `bridget`:
+
+---
+
+### `navigateToDoc`
+Navigates to a specified document (article, page, etc.) via the supplied url.
+
+| Prop  | Required | Type |
+| ------| -------- | ------------|
+| url   | Yes      | String      |
+| title | No       | String      |
+
 ```js
 /**
  * @typedef {object} spec
  * @property {string} url - the location of the resource
  * @property {string|undefined} title - [optional] title of the resource
  */
-bridget.navigateToArticle(spec)
+bridget.navigateToDoc(spec)
 ```
 
-## Linking type resolution
+### `navigateExternally`
+Opens an in-app browser with the supplied url.
+| Prop  | Required | Type |
+| ------| -------- | ------------|
+| url   | Yes      | String      |
+```js
+/**
+ * @typedef {object} spec
+ * @property {string} url - the location of the resource
+ */
+bridget.navigateExternally(spec)
+```
 
-In order for `bridget` to be able to differentiate between links when handling them, there is a need custom linking logic. A good example for this would be to think about how exactly we define an article URL? Would it contain (in its path) an article slug, an article ID, or perhaps another parameter.
-> TODO: url handling
-> 
-## Social links
+### `navigateToStartpage`
+Pops the entire navigation stack and returns back to the start page.
+| Prop  | Required | Type |
+| ------| -------- | ------------|
+x
+
+```js
+bridget.navigateToStartpage()
+```
+
+## [Social links](#api-social-links)
 
 > TODO: social link handling
 
-## Sharing
+## [Sharing](#api-sharing)
 
-Sharing is triggered through `bridget` once again by hijacking the `onclick` event on a specific element. Additionally, metadata on what to share should also be available.
+Sharing is triggered through `bridget` once again by hijacking the `onclick` event on a specific element which has the specified class.
 
 
-Required data properties:
-|attributes|value|description|optional|
-|---|---|---|---|
-| data-webview-social|true|Indicates that this is a social sharing link and should prompt the native share sheet.|false|
+Required class:
 
-By default, when a social sharing link is clicked, it will try to extract the metadata from the data attribute tags
-|attributes|value|description|optional|
-|---|---|---|---|
-| data-webview-share-url|http://share-url|The URL of the document being shared. It should be an absolute path to the document we want to share.|true|
-| data-webview-share-title|[title of the document being shared]|It should typically be the title of the document (article/page for example) we are trying to share.|true|
-| data-webview-share-description| [description of the document]|Refers to the basic subtext that comes with sharing a document. It should typically be either a subtitle, a short abstract of the document or some other excerpt.|true|
-    
-Example:
+|class name|description|optional|
+|---|---|---|
+|webview-social|Indicates that this is a social sharing link and should prompt the native share sheet.|false|
 
-```js
-<div>
-    <span>{articleTitle}</span>
-    <span>{articleDescription}</span>
-    <div>
-        // ... the article content
-    </div>
-	<button href="https://www.facebook.com/sharer/....">
-        Share
-    <button/>
-</div>
+By default, when a social sharing link is clicked, it will try to extract the metadata (url, title, description) from multiple sources in the following order:
+- LDJson metadata
+```html
+<script type="application/ld+json">
+{
+   "@context":"https://schema.org",
+   "@type":"NewsArticle",
+   "mainEntityOfPage":{
+      "@type":"WebPage",
+      "@id":"https://publisher.com/sport/random-article"
+   },
+   "title":"Random article",
+   "datePublished":"2021-07-14T16:55:00+02:00",
+   "dateModified":"2021-07-14T18:03:00+02:00",
+   "description":"Lorem ipsum article...",
+   "author":[
+      {
+         "@type":"Person",
+         "name":"Filip Boev"
+      }
+   ]
+}
+</script>
+```
+- if not present, it will try with Open Graph data
+```html
+    <meta property="og:url" content="https://publisher.com/sport/random-article">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Random article">
+    <meta property="og:description" content="Lorem ipsum article...">
+```
+- if not present, it will default back to `document`, `location` & plain `meta` tag data.
+```html
+    <meta name="title" content="Random article">
+    <meta name="description" content="SLorem ipsum article...">
 ```
 
-would become
+### Exposed API
 
+ If you want to manually trigger the native share sheet, then you can use the exposed internal API from `bridget`:
+
+---
+
+### `shareDoc`
+Opens a native share sheet with the supplied spec.
+| Prop  | Required | Type |
+| ------------| -------- | ------------|
+| url         | Yes      | String      |
+| title       | Yes       | String      |
+| description | Yes       | String      |
 ```js
-<div>
-    <span>{articleTitle}</span>
-    <span>{articleDescription}</span>
-    <div>
-        // ... the article content
-    </div>
-	<button 
-        href="https://www.facebook.com/sharer/...."
-        data-webview-social={true}
-        data-webview-share-url={metadata.url}
-	    data-webview-share-title={articleTitle}
-	    data-webview-share-description={articleDescription}>
-        Share
-    <button/>
-</div>
+/**
+ * @typedef {object} spec
+ * @property {string} url - the location of the resource
+ * @property {string} title - title of the resource
+ * @property {string} description - description of the resource
+ */
+bridget.shareDoc(spec)
 ```
 
 ## Hiding specific web components
@@ -181,37 +212,37 @@ This part of the API focuses on removing certain components that might appear in
 
 A few examples that come to mind would be the headers, burger menu, footers, sitemap or anything your web delivery has that **should not appear** in the WebView.
 
-Required data properties:
-|attributes|value|description|optional|
-|---|---|---|---|
-|data-webview-hide|true|Whenever this property appears on some html component `bridget`  will inject the CSS property `display: 'none'` to it, thus removing it from the viewport.|false|
+To simply hide an element in the mobile context, you need to add this `css` class to it:
 
+|class name|description|optional|
+|---|---|---|
+|webview-hidden|Whenever this class is added to an html component `bridget`  will inject the CSS property `display: 'none'` to it, thus removing it from the viewport.|false|
 
 Example:
 
 ```js
-	<NavigationHeader style={...} >
+	<header>
            <p>First item</p>
            <p>Second item</p>
            .
            .
            .
            <p>Last item</p>
-        <NavigationHeader/>
+    <header/>
 ```
 
 would become
 
 ```js
-	<NavigationHeader style={...} data-webview-hide="true">
+	<header class="... webview-hidden">
            <p>First item</p>
            <p>Second item</p>
            .
            .
            .
            <p>Last item</p>
-        <NavigationHeader/>
+    <header/>
 ```
-This will essentially remove the entire component from the viewport once bridget iterates the DOM tree and finds all elements that have this data attribute.
+This will essentially remove the entire component from the viewport once `bridget` iterates the DOM tree and finds all elements that have this data attribute.
     
 

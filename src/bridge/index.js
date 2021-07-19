@@ -63,8 +63,7 @@ const isInternalLink = (url, host) => {
 }
 
 const isSharingLink = (element) => {
-  const { service } = element.dataset
-  return service
+  return element.classList.contains('webview-social')
 }
 
 const actionFromElementLinkType = element => {
