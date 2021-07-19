@@ -1,9 +1,9 @@
 import ajv from 'ajv'
-import * as shareArticle from './shareArticle.json'
+import * as shareDoc from './shareDoc.json'
 
 const buildAjv = () => {
   const validator = ajv({ verbose: true, useDefaults: true, allErrors: true, jsonPointers: true })
-  validator.addSchema([shareArticle])
+  validator.addSchema([shareDoc])
   validator.addFormat('parametrized-text', /.*/)
   return validator
 }
@@ -22,7 +22,7 @@ const parseErrors = (schema, spec, errors) => {
 }
 
 export const schemaIds = {
-  shareArticle: shareArticle.$id
+  shareDoc: shareDoc.$id
 }
 
 export default buildAjv

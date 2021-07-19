@@ -9,57 +9,75 @@ const hijackLinking = () => {
   })
 }
 
-// hardcoded assumption from BMG
 const applyStyles = () => {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.appendChild(
-    document.createTextNode('header.fp-main-header {display:none;}')
-  )
-  style.appendChild(
-    document.createTextNode('footer[data-t-name="Footer"] {display:none;}')
+    document.createTextNode('.webview-hidden {display:none;}')
   )
   document.head.append(style)
 }
 
-const extractArticleMetadata = () => {
-  const documentMeta = JSON.parse(document.querySelector("script[type='application/ld+json']").innerHTML)
-  const { headline, description, mainEntityOfPage } = documentMeta
+const getElementContentByPropSelector = ({ element, prop, value, innerHtml = false, attribute = 'content' }) => {
+  // Content is sometimes inside the tag, or between the tag as inner content
+  return innerHtml ? document.querySelector(`${element}[${prop}^='${value}']`)?.innerHTML : document.querySelector(`${element}[${prop}^='${value}']`)?.getAttribute(attribute)
+}
 
-  return { title: headline, description, url: mainEntityOfPage['@id'] }
+const getAllElementsByPropSelector = ({ element, prop, value }) => {
+  return document.querySelectorAll(`${element}[${prop}^='${value}']`) || []
+}
+
+const extractDocMetadata = () => {
+  // get defaults first
+  const title = document.title || ''
+  const description = getElementContentByPropSelector({ element: 'meta', prop: 'name', value: 'description' }) || ''
+  const url = document.location.href || ''
+  // check for LDJson linked data, return that if present
+  const LDJson = getElementContentByPropSelector({ element: 'script', prop: 'type', value: 'application/ld+json', innerHtml: true })
+  if (LDJson) {
+    const documentMeta = JSON.parse(LDJson)
+    const { headline, description, mainEntityOfPage } = documentMeta
+    return { title: headline, description, url: mainEntityOfPage['@id'] }
+  }
+  const openGraphData = Array.from(getAllElementsByPropSelector({ element: 'meta', prop: 'property', value: 'og:' }))
+  const hasOpenGraph = openGraphData.length
+  // check for OpenGraph linked data, return that if LDJson not present
+  if (hasOpenGraph) {
+    let graphData = {}
+    openGraphData.forEach(item => {
+      if (item.hasAttribute('property') && item.hasAttribute('content')) {
+        const property = item.getAttribute('property')
+        const content = item.getAttribute('content')
+        graphData = { ...graphData, [`${property.replace('og:', '')}`]: content }
+      }
+    })
+    const { title, description, url } = graphData
+    return { title, description, url }
+  }
+  // return defaults if previous metadata is not available
+  return { title, description, url }
 }
 
 const isInternalLink = (url, host) => {
   return url.host === host
 }
-// hardcoded assumption from BMG
+
 const isSharingLink = (element) => {
   const { service } = element.dataset
   return service
-}
-
-// This is a placeholder check for testing purposes on BMG. It would ideally
-// be replaced by a client-side regex detailing what we should look for in an
-// article.
-const isArticle = (url) => {
-  const re = /^[a-zA-Z-]+-[0-9]+$', 'g'/
-  return re.test(url.split('/').pop())
 }
 
 const actionFromElementLinkType = element => {
   const { href } = element
   const location = window.location
   const constructedUrl = new URL(href, location.origin)
-  const pathname = constructedUrl.pathname
+  const { href: url, pathname } = constructedUrl
 
   if (isInternalLink(constructedUrl, location.host)) {
-    if (isArticle(pathname)) {
-      return { type: 'article', spec: { url: pathname } }
-    }
-    return pathname === '/' ? { type: 'startpage' } : { type: 'page', spec: { url: pathname } }
+    return pathname === '/' ? { type: 'startpage' } : { type: 'document', spec: { url } }
   } else if (isSharingLink(element)) {
-    const articleMeta = extractArticleMetadata()
-    return { type: 'share', spec: articleMeta }
+    const docMeta = extractDocMetadata()
+    return { type: 'share', spec: docMeta }
   }
   return { type: 'external', spec: { url: href } }
 }
@@ -71,12 +89,8 @@ const linkingHandler = event => {
   const { type, spec } = actionObject
 
   switch (type) {
-    case 'article': {
-      bridge.navigateToArticle(spec.url)
-      break
-    }
-    case 'page': {
-      bridge.navigateToPage(spec.url)
+    case 'document': {
+      bridge.navigateToDoc(spec.url)
       break
     }
     case 'startpage': {
@@ -88,7 +102,7 @@ const linkingHandler = event => {
       break
     }
     case 'share': {
-      bridge.shareArticle(spec)
+      bridge.shareDoc(spec)
       break
     }
   }

@@ -1,5 +1,5 @@
 {
-    "$id": "shareArticle.json#",
+    "$id": "shareDoc.json#",
     "type": "object",
     "properties": {
       "title": {

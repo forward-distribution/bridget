@@ -13,24 +13,12 @@ const fireAction = (action) => {
     JSON.stringify(action))
 }
 
-bridge.navigateToArticle = path => {
+bridge.navigateToDoc = path => {
   window.ReactNativeWebView.postMessage(
     JSON.stringify({
       type: 'navigate',
       payload: {
-        to: 'article',
-        path
-      }
-    })
-  )
-}
-
-bridge.navigateToPage = path => {
-  window.ReactNativeWebView.postMessage(
-    JSON.stringify({
-      type: 'navigate',
-      payload: {
-        to: 'page',
+        to: 'document',
         path
       }
     })
@@ -60,9 +48,9 @@ bridge.navigateExternally = url => {
   )
 }
 
-bridge.shareArticle = spec => {
-  validateBeforeCall(schemaIds.shareArticle, spec, v, () => fireAction({
-    type: 'shareArticle',
+bridge.shareDoc = spec => {
+  validateBeforeCall(schemaIds.shareDoc, spec, v, () => fireAction({
+    type: 'shareDoc',
     payload: spec
   })
   )
