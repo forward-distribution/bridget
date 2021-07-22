@@ -14,7 +14,7 @@ This repository contains the bridging functionality — aptly named Bridget — 
 
 # [Docs](#docs)
 
-Check out the [documentation](./docs/index.md). 
+Check out the [documentation](https://forward-distribution.github.io/bridget/). 
  
 # [Changelog](#changelog)
 
