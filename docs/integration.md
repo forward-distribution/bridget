@@ -1,11 +1,11 @@
 # [Integration Guide](#integration-guide)
-The basis of this document is to chowcase the process of integrating `bridget` into an existing web delivery. 
+The basis of this document is to showcase the process of integrating `bridget` into an existing `website`,   henceforth referred to as `web delivery`.
 
 At a high level, this would mean:
 
-- A mobile app has been configured to point to a designated web delivery (website)
-- Bridget has been integrated into the web delivery (website)
-- The web delivery (website) has been customized to tailor to the `bridget` requirements
+- A mobile app has been configured to point to a designated `web delivery`
+- Bridget has been integrated into the `web delivery`
+- The `web delivery` has been customized to tailor to the `bridget` requirements
 
 
 The end goal is for you, as an integrator, to know how you can test your website in the context of a native mobile application and how you can adapt it for a better mobile experience.
@@ -13,11 +13,11 @@ The end goal is for you, as an integrator, to know how you can test your website
 ## [Prerequisites](#prerequisites)
 
 This integration guide assumes:
-- A web delivery (website) is present for a given publisher
+- A `web delivery` is present for a given publisher
 - A mobile app for the publisher has been set up
 
 ## [How to install](#how-to-install)
-> The module is designed to run in the browser. It can also be used in a server (node) environment via npm.
+> `bridget` is designed to run in the browser. It can also be used in a server (node.js) environment via npm.
 
 ### [Installation via script tag](#install-via-script-tag)
 ```html
@@ -25,7 +25,7 @@ This integration guide assumes:
   // The module will bootstrap itself when imported, if it is in the correct context (mobile webview)
 </script>
 ```
-Put the above script tags in between the <head> tags of your HTML page. It will attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
+Place the above `<script>...</script>` tag into the `<head>` tag of your HTML page. It will bootstrap itself & attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
 
 ## [Alternative installation via NPM](#alternative-installation-via-npm)
 The module is available on NPM, if you’re using a front-end packager like Browserify or Webpack:
@@ -40,11 +40,11 @@ You can then `require` or `import` the lib like any other module.
 
 # [API](#api)
 
-In the API segment of the integration guide we will define what you get out-of-the-box when integrating `bridget` and all of the specific changes the web delivery(website) should make in order for it to be compatible with and to function within the WebView context.
+In the API segment of the integration guide we will define what you get out-of-the-box when integrating `bridget` and all of the specific changes the `web delivery` should make in order for it to be compatible with and to function within the WebView context.
 
 ## [Linking](#api-linking)
 
-The linking part of the API focuses on two things, document & external navigation. 
+The linking part of the API focuses on two things, document & external navigation.
 
 Essentially, anywhere in the app where you have a link (e.g. `<a href='http://...'> link </a>` tag)  `bridget` will hijack the `onclick` (`ontap` | `onpress`) event of this element and do something else instead, provided the correct data properties have been set or are present on the web page. 
 
@@ -75,9 +75,11 @@ bridget.navigateToDoc(spec)
 
 ### `navigateExternally`
 Opens an in-app browser with the supplied url.
+
 | Prop  | Required | Type |
 | ------| -------- | ------------|
 | url   | Yes      | String      |
+
 ```js
 /**
  * @typedef {object} spec
@@ -88,9 +90,8 @@ bridget.navigateExternally(spec)
 
 ### `navigateToStartpage`
 Pops the entire navigation stack and returns back to the start page.
-| Prop  | Required | Type |
-| ------| -------- | ------------|
-x
+
+> no arguments
 
 ```js
 bridget.navigateToStartpage()
@@ -156,11 +157,13 @@ The 2nd requirement is to have ***at least one*** of the following metadata form
 
 ### `shareDoc`
 Opens a native share sheet with the supplied spec.
+
 | Prop  | Required | Type |
-| ------------| -------- | ------------|
-| url         | Yes      | String      |
+| ------------| --------- | ------------|
+| url         | Yes       | String      |
 | title       | Yes       | String      |
 | description | Yes       | String      |
+
 ```js
 /**
  * @typedef {object} spec
@@ -173,9 +176,9 @@ bridget.shareDoc(spec)
 
 ## Hiding specific web components
 
-This part of the API focuses on removing certain components that might appear in the web delivery that don't make sense in a mobile context or have a native counterpart component. 
+This part of the API focuses on removing certain components that might appear in the `web delivery that don't make sense in a mobile context or have a native counterpart component.
 
-A few examples that come to mind would be the headers, burger menu, footers, sitemap or anything the web delivery has, that **should not appear** in the WebView.
+A few examples that come to mind would be the headers, burger menu, footers, sitemap or anything the `web delivery has, that **should not appear** in the WebView.
 
 To simply hide an element in the mobile context, you need to add this `css` class to it:
 
