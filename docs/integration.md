@@ -1,9 +1,9 @@
 # [Integration Guide](#integration-guide)
-The basis of this document is to showcase the process of integrating `bridget` into an existing `website`,   henceforth referred to as `web delivery`.
+The basis of this document is to familiarize the user, a.k.a. integrator, with the process of integrating `bridget` into an existing `website`,  henceforth referred to as a `web delivery`.
 
-At a high level, this would mean:
+At a high level, an integration would mean:
 
-- A mobile app has been configured to point to a designated `web delivery`
+- A Forward Publishing Mobile App has been configured to point to a designated `web delivery`
 - Bridget has been integrated into the `web delivery`
 - The `web delivery` has been customized to tailor to the `bridget` requirements
 
@@ -14,12 +14,12 @@ The end goal is for you, as an integrator, to know how you can test your website
 
 This integration guide assumes:
 - A `web delivery` is present for a given publisher
-- A mobile app for the publisher has been set up
+- A Forward Publishing Mobile App for the publisher has been set up
 
 ## [How to install](#how-to-install)
-> `bridget` is designed to run in the browser. It can also be used in a server (node.js) environment via npm.
+> `bridget` is designed to run in the browser.
 
-### [Installation via script tag](#install-via-script-tag)
+### Installation via script tag
 ```html
 <script src="https://unpkg.com/@forward-distribution/bridget">
   // The module will bootstrap itself when imported, if it is in the correct context (mobile webview)
@@ -27,9 +27,9 @@ This integration guide assumes:
 ```
 Place the above `<script>...</script>` tag into the `<head>` tag of your HTML page. It will bootstrap itself & attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
 
+<!---
 ## [Alternative installation via NPM](#alternative-installation-via-npm)
 The module is available on NPM, if you’re using a front-end packager like Browserify or Webpack:
-
 Just run
 
 ```
@@ -37,27 +37,30 @@ npm install -g @forward-distribution/bridget
 ```
 
 You can then `require` or `import` the lib like any other module.
+--->
+
 
 # [API](#api)
 
-In the API segment of the integration guide we will define what you get out-of-the-box when integrating `bridget` and all of the specific changes the `web delivery` should make in order for it to be compatible with and to function within the WebView context.
+In the API segment of the integration guide we will define what you get out-of-the-box when integrating `bridget` and all of the specific changes the `web delivery` should make in order for it to be compatible with `bridget` and to function within the WebView context.
 
 ## [Linking](#api-linking)
 
-The linking part of the API focuses on two things, document & external navigation.
+The linking part of the API focuses on navigation.
 
-Essentially, anywhere in the app where you have a link (e.g. `<a href='http://...'> link </a>` tag)  `bridget` will hijack the `onclick` (`ontap` | `onpress`) event of this element and do something else instead, provided the correct data properties have been set or are present on the web page. 
+Essentially, anywhere in the app where there is a navigation hyperlink (e.g. `<a href='http://...'> link </a>` tag) `bridget` will take over the event and do the navigation, provided the correct data properties have been set or are present on the web page. 
 
 This happens by default when `bridget` is included in your website, and you don't need to setup or configure anything in your codebase.
 
 ### Exposed API
 
- If you want to manually trigger the navigation events, however, then you can use the exposed API from `bridget`:
+If you want to manually trigger the navigation events, however, then you can use the exposed API from `bridget`.
+Since it's present in the `window` object, you can use it as:
 
 ---
 
-### `navigateToDoc`
-Navigates to a specified document (article, page, etc.) via the supplied url.
+### `window.bridget.navigateToDoc`
+Navigates to a specified location (document, article, page, etc.) via the supplied url.
 
 | Prop  | Required | Type |
 | ------| -------- | ------------|
@@ -73,7 +76,7 @@ Navigates to a specified document (article, page, etc.) via the supplied url.
 bridget.navigateToDoc(spec)
 ```
 
-### `navigateExternally`
+### `window.bridget.navigateExternally`
 Opens an in-app browser with the supplied url.
 
 | Prop  | Required | Type |
@@ -88,32 +91,24 @@ Opens an in-app browser with the supplied url.
 bridget.navigateExternally(spec)
 ```
 
-### `navigateToStartpage`
-Pops the entire navigation stack and returns back to the start page.
-
-> no arguments
-
-```js
-bridget.navigateToStartpage()
-```
-
 ## [Sharing](#api-sharing)
 
-Sharing is triggered through `bridget` once again by hijacking the `onclick` event on a specific element which has the specified class.
+Sharing is triggered through `bridget` by overriding the default web action and passing it on to the native sharing functionality. 
 
+All you need to do is add the `css` class `fp-bridget__webview-social` onto the clickable html tag, and `bridget` will take care of the rest.
 
 Required class:
 
 |class name|description|optional|
 |---|---|---|
-|webview-social|Indicates that this is a social sharing link and should prompt the native share sheet.|false|
+|`fp-bridget__webview-social`|Indicates that this is a social sharing link and should prompt the native share sheet.|false|
 
-All you need to do is add the `css` class `webview-social` onto the clickable html tag, and `bridget` will take care of the rest.
 
 The 2nd requirement is to have ***at least one*** of the following metadata formats available:
 
 
-- LDJson metadata
+[LDJson metadata](https://json-ld.org/)
+***
 ```html
 <script type="application/ld+json">
 {
@@ -136,14 +131,20 @@ The 2nd requirement is to have ***at least one*** of the following metadata form
 }
 </script>
 ```
-- if LDJson is not present, it will try with Open Graph data
+
+  if LDJson is not present, it will try with [Open Graph protocol](https://ogp.me/)
+  ***
+
 ```html
     <meta property="og:url" content="https://publisher.com/sport/random-article">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Random article">
     <meta property="og:description" content="Lorem ipsum article...">
 ```
-- if not present, it will default back to `document`, `location` & plain `meta` tag data.
+
+if both of the above are not  present, it will default back to `document`, `location` & [meta tag](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML) data.
+***
+
 ```html
     <meta name="title" content="Random article">
     <meta name="description" content="SLorem ipsum article...">
@@ -155,7 +156,7 @@ The 2nd requirement is to have ***at least one*** of the following metadata form
 
 ---
 
-### `shareDoc`
+### `window.bridget.shareDoc`
 Opens a native share sheet with the supplied spec.
 
 | Prop  | Required | Type |
@@ -184,11 +185,11 @@ To simply hide an element in the mobile context, you need to add this `css` clas
 
 |class name|description|optional|
 |---|---|---|
-|webview-hidden|When bridget "sees" this class, it will remove that specific element from the viewport.|false|
+|`fp-bridget__webview-hidden`|When bridget "sees" this class, it will remove that specific element from the viewport.|false|
 
 Example:
 
-```js
+```html
 	<header>
            <p>First item</p>
            <p>Second item</p>
@@ -201,8 +202,8 @@ Example:
 
 would become
 
-```js
-	<header class="... webview-hidden">
+```html
+	<header class="... fp-bridget__webview-hidden">
            <p>First item</p>
            <p>Second item</p>
            .

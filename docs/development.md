@@ -76,7 +76,7 @@ As an example, internally in the bridge, handling an `onclick` event originating
     }
 ```
 #### Handling the event
-In essence, how we handle click events within the WebView is through hijacking the `onlick` events within the web delivery.
+In essence, how we handle click events within the WebView is through overriding the `onlick` events within the web delivery and apply functionality that will instead trigger a native navigation.
 
 This is done by having:
 - `onclick` listeners that `bridget` registers for specific `html` elements 
