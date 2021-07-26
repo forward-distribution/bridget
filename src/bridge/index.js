@@ -1,6 +1,6 @@
 import bridge from './api.js'
 
-const hijackLinking = () => {
+const applyLinkingListener = () => {
   document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', e => {
       const element = e.target.closest('a')
@@ -13,13 +13,13 @@ const applyStyles = () => {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.appendChild(
-    document.createTextNode('.webview-hidden {display:none;}')
+    document.createTextNode('.fp-bridget__webview-hidden {display:none;}')
   )
   document.head.append(style)
 }
 
 const getElementContentByPropSelector = ({ element, prop, value, innerHtml = false, attribute = 'content' }) => {
-  // Content is sometimes inside the tag, or between the tag as inner content
+  // Content is sometimes inside the tag as an attribute, or between the tag as inner content
   return innerHtml ? document.querySelector(`${element}[${prop}^='${value}']`)?.innerHTML : document.querySelector(`${element}[${prop}^='${value}']`)?.getAttribute(attribute)
 }
 
@@ -63,8 +63,7 @@ const isInternalLink = (url, host) => {
 }
 
 const isSharingLink = (element) => {
-  const { service } = element.dataset
-  return service
+  return element.classList.contains('fp-bridget__webview-social')
 }
 
 const actionFromElementLinkType = element => {
@@ -93,10 +92,6 @@ const linkingHandler = event => {
       bridge.navigateToDoc(spec.url)
       break
     }
-    case 'startpage': {
-      bridge.navigateToStartpage()
-      break
-    }
     case 'external': {
       bridge.navigateExternally(spec.url)
       break
@@ -110,5 +105,5 @@ const linkingHandler = event => {
 
 export const initBridget = (opts = {}) => {
   applyStyles()
-  hijackLinking()
+  applyLinkingListener()
 }
