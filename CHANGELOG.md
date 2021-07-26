@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/forward-distribution/bridget/compare/v1.3.7...v1.4.0) (2021-07-26)
+
+
+### Features
+
+* generalize navigation & add metadata extraction for sharing ([7535ea8](https://github.com/forward-distribution/bridget/commit/7535ea8a334c0470cf3bacf67367eb21a8fcb861))
+
 ### [1.3.7](https://github.com/forward-distribution/bridget/compare/v1.3.6...v1.3.7) (2021-07-08)
 
 ### [1.3.6](https://github.com/forward-distribution/bridget/compare/v1.3.5...v1.3.6) (2021-07-08)
