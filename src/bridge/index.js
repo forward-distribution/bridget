@@ -31,7 +31,8 @@ const extractDocMetadata = () => {
   // get defaults first
   const title = document.title || ''
   const description = getElementContentByPropSelector({ element: 'meta', prop: 'name', value: 'description' }) || ''
-  const url = document.location.href || ''
+  const cannonicalUrl = getElementContentByPropSelector({ element: 'link', prop: 'rel', value: 'canonical', attribute: 'href' })
+  const url = cannonicalUrl || document.location.href
   // check for LDJson linked data, return that if present
   const LDJson = getElementContentByPropSelector({ element: 'script', prop: 'type', value: 'application/ld+json', innerHtml: true })
   if (LDJson) {
