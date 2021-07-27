@@ -1,7 +1,4 @@
-import schemaValidator, {
-  schemaIds,
-  validateBeforeCall
-} from '../schema'
+import schemaValidator, { schemaIds, validateBeforeCall } from '../schema'
 
 const v = schemaValidator()
 
@@ -9,39 +6,41 @@ const bridge = {}
 
 const fireAction = (action) => {
   console.log('Firing action', action.type)
-  window && window.ReactNativeWebView && window.ReactNativeWebView.postMessage(
-    JSON.stringify(action))
+  window &&
+    window.ReactNativeWebView &&
+    window.ReactNativeWebView.postMessage(JSON.stringify(action))
 }
 
-bridge.navigateToDoc = path => {
+bridge.navigateToDoc = (path) => {
   window.ReactNativeWebView.postMessage(
     JSON.stringify({
       type: 'navigate',
       payload: {
         to: 'document',
-        path
-      }
+        path,
+      },
     })
   )
 }
 
-bridge.navigateExternally = url => {
+bridge.navigateExternally = (url) => {
   window.ReactNativeWebView.postMessage(
     JSON.stringify({
       type: 'navigate',
       payload: {
         to: 'external',
-        url
-      }
+        url,
+      },
     })
   )
 }
 
-bridge.shareDoc = spec => {
-  validateBeforeCall(schemaIds.shareDoc, spec, v, () => fireAction({
-    type: 'shareDoc',
-    payload: spec
-  })
+bridge.shareDoc = (spec) => {
+  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+    fireAction({
+      type: 'shareDoc',
+      payload: spec,
+    })
   )
 }
 

@@ -2,7 +2,12 @@ import ajv from 'ajv'
 import * as shareDoc from './shareDoc.json'
 
 const buildAjv = () => {
-  const validator = ajv({ verbose: true, useDefaults: true, allErrors: true, jsonPointers: true })
+  const validator = ajv({
+    verbose: true,
+    useDefaults: true,
+    allErrors: true,
+    jsonPointers: true,
+  })
   validator.addSchema([shareDoc])
   validator.addFormat('parametrized-text', /.*/)
   return validator
@@ -22,7 +27,7 @@ const parseErrors = (schema, spec, errors) => {
 }
 
 export const schemaIds = {
-  shareDoc: shareDoc.$id
+  shareDoc: shareDoc.$id,
 }
 
 export default buildAjv
