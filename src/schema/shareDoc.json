@@ -5,7 +5,7 @@
       "title": {
         "type": "string"
       },
-      "description": {
+      "text": {
         "type": "string"
       },
       "url": {
@@ -14,7 +14,7 @@
     },
     "required": [
       "title",
-      "description",
+      "text",
       "url"
     ]
   }

@@ -7,7 +7,7 @@ const applyLinkingListener = () => {
       (e) => {
         const element = e.target.closest('a')
         element &&
-          element.addEventListener('click', linkingHandler, { once: true })
+          element.addEventListener('click', userActionHandler, { once: true })
       },
       { capture: true }
     )
@@ -68,7 +68,7 @@ const extractDocMetadata = () => {
   if (LDJson) {
     const documentMeta = JSON.parse(LDJson)
     const { headline, description, mainEntityOfPage } = documentMeta
-    return { title: headline, description, url: mainEntityOfPage['@id'] }
+    return { title: headline, text: description, url: mainEntityOfPage['@id'] }
   }
   const openGraphData = Array.from(
     getAllElementsByPropSelector({
@@ -92,10 +92,10 @@ const extractDocMetadata = () => {
       }
     })
     const { title, description, url } = graphData
-    return { title, description, url }
+    return { title, text: description, url }
   }
   // return defaults if previous metadata is not available
-  return { title, description, url }
+  return { title, text: description, url }
 }
 
 const isInternalLink = (url, host) => {
@@ -123,7 +123,7 @@ const actionFromElementLinkType = (element) => {
   return { type: 'external', spec: { url: href } }
 }
 
-const linkingHandler = (event) => {
+const userActionHandler = (event) => {
   event.preventDefault()
   const element = event.target.closest('a')
   const actionObject = actionFromElementLinkType(element)
@@ -139,7 +139,18 @@ const linkingHandler = (event) => {
       break
     }
     case 'share': {
-      bridge.shareDoc(spec)
+      if (navigator.share) {
+        navigator
+          .share(spec)
+          .then(() => {
+            console.log('Web Shared successful')
+          })
+          .catch((e) => {
+            console.error(e)
+          })
+      } else {
+        bridge.shareDoc(spec)
+      }
       break
     }
   }
