@@ -1,7 +1,7 @@
 # Bridget
 
-[![npm version](https://img.shields.io/npm/v/@forward-distribution/bridget?color=green&label=@forward-distribution/bridget)]()
-[![GitHub Issues Open](https://img.shields.io/github/issues/forward-distribution/bridget)]()
+[![npm version](https://img.shields.io/npm/v/@forward-distribution/bridget?color=green&label=@forward-distribution/bridget)](https://www.npmjs.com/package/@forward-distribution/bridget)
+[![GitHub Issues Open](https://img.shields.io/github/issues/forward-distribution/bridget)](https://github.com/forward-distribution/bridget/issues)
 
 **Bridget**, the communication link between your website & webviews. Tailored to offer an out-of-the-box solution that turns your
 website's hyperlinks into actions that the Forward Publishing Mobile App uses to enable native navigation. As well as allowing a two way communication between the mobile API & the web API, giving you access to a rich feature set to mobile native functionality.
@@ -16,7 +16,7 @@ website's hyperlinks into actions that the Forward Publishing Mobile App uses to
 
 # 📖 Documentation
 
-Check out the [documentation](https://forward-distribution.github.io/bridget/$$). 
+Check out the [documentation](https://forward-distribution.github.io/bridget/).
  
 # 📝 Changelog
 
