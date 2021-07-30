@@ -22,6 +22,29 @@ const applyStyles = () => {
   )
   document.head.append(style)
 }
+const applySearchFormListener = () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchForms = Array.from(
+      getAllElementsByPropSelector({
+        element: 'form',
+        prop: 'class',
+        value: 'fp-bridget_webview-search',
+      })
+    )
+    searchForms.map((f) =>
+      f.addEventListener(
+        'submit',
+        (e) => {
+          e.preventDefault()
+          const query = e.target
+          console.log('FBO', query)
+          // bridge.navigateToSearchResults({ query })
+        },
+        { capture: true }
+      )
+    )
+  })
+}
 
 const getElementContentByPropSelector = ({
   element,
@@ -159,4 +182,5 @@ const userActionHandler = (event) => {
 export const initBridget = (opts = {}) => {
   applyStyles()
   applyLinkingListener()
+  applySearchFormListener()
 }
