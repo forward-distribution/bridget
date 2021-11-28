@@ -21,6 +21,7 @@ const applyStyles = () => {
     document.createTextNode('.fp-bridget__webview-hidden {display:none;}')
   )
   document.head.append(style)
+  document.body.classList.add('fp-bridget__webview-body')
 }
 
 const getElementContentByPropSelector = ({
