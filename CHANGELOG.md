@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/forward-distribution/bridget/compare/v1.4.0...v1.5.0) (2021-12-15)
+
+
+### Features
+
+* add check for canonical url presence when sharing ([38e90d5](https://github.com/forward-distribution/bridget/commit/38e90d58943fe032e7ffd71168c27fee7696573f))
+* add special body-css-class in webview context ([#6](https://github.com/forward-distribution/bridget/issues/6)) ([5f6c8b8](https://github.com/forward-distribution/bridget/commit/5f6c8b83e050be2644a0e508c958ca798d5f23f3)), closes [#4](https://github.com/forward-distribution/bridget/issues/4)
+* add web share support ([647c56c](https://github.com/forward-distribution/bridget/commit/647c56c5f2bfbc391f858fc788344c5daf8752f6))
+
 ## [1.4.0](https://github.com/forward-distribution/bridget/compare/v1.3.7...v1.4.0) (2021-07-26)
 
 
