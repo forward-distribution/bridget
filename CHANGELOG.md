@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/forward-distribution/bridget/compare/v1.5.0...v1.5.1) (2021-12-15)
+
+
+### Bug Fixes
+
+* remove the addition of body class ([#7](https://github.com/forward-distribution/bridget/issues/7)) ([2703bb6](https://github.com/forward-distribution/bridget/commit/2703bb69bda11d76c15f9d9cbff79ff8c6a7dc49))
+
 ## [1.5.0](https://github.com/forward-distribution/bridget/compare/v1.4.0...v1.5.0) (2021-12-15)
 
 
