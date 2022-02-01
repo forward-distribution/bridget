@@ -1,17 +1,27 @@
 import bridge from './api.js'
 
-const applyLinkingListener = () => {
+const scheduleDomContentLoadedActions = () => {
   document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener(
-      'click',
-      (e) => {
-        const element = e.target.closest('a')
-        element &&
-          element.addEventListener('click', userActionHandler, { once: true })
-      },
-      { capture: true }
-    )
+    applyLinkingListener()
+    propagateDocumentMetadata()
   })
+}
+
+const applyLinkingListener = () => {
+  document.addEventListener(
+    'click',
+    (e) => {
+      const element = e.target.closest('a')
+      element &&
+      element.addEventListener('click', userActionHandler, { once: true })
+    },
+    { capture: true }
+  )
+}
+
+const propagateDocumentMetadata = () => {
+  const documentMetadata = extractDocMetadata()
+  bridge.propagateDocumentMetadata(documentMetadata)
 }
 
 const applyStyles = () => {
@@ -158,5 +168,5 @@ const userActionHandler = (event) => {
 
 export const initBridget = (opts = {}) => {
   applyStyles()
-  applyLinkingListener()
+  scheduleDomContentLoadedActions()
 }

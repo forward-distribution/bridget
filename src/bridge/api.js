@@ -44,4 +44,13 @@ bridge.shareDoc = (spec) => {
   )
 }
 
+bridge.propagateDocumentMetadata = (spec) => {
+  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+    fireAction({
+      type: 'propagateDocumentMetadata',
+      payload: spec,
+    })
+  )
+}
+
 export default bridge
