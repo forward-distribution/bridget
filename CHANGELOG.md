@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/forward-distribution/bridget/compare/v1.5.1...v1.6.0) (2022-02-01)
+
+
+### Features
+
+* implement document metadata propagation to the app ([#8](https://github.com/forward-distribution/bridget/issues/8)) ([6df7104](https://github.com/forward-distribution/bridget/commit/6df7104e52907225bc28c01ace0f30d028a5c9f8))
+
 ### [1.5.1](https://github.com/forward-distribution/bridget/compare/v1.5.0...v1.5.1) (2021-12-15)
 
 
