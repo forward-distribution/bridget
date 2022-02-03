@@ -1,4 +1,11 @@
 import bridge from './api.js'
+import {
+  getElementContentByPropSelector,
+  getAllElementsByPropSelector,
+  filterObjectFromNullValues,
+  isInternalLink,
+  isSharingLink
+} from './util'
 
 const scheduleDomContentLoadedActions = () => {
   document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +20,7 @@ const applyLinkingListener = () => {
     (e) => {
       const element = e.target.closest('a')
       element &&
-      element.addEventListener('click', userActionHandler, { once: true })
+        element.addEventListener('click', userActionHandler, { once: true })
     },
     { capture: true }
   )
@@ -33,25 +40,6 @@ const applyStyles = () => {
   document.head.append(style)
 }
 
-const getElementContentByPropSelector = ({
-  element,
-  prop,
-  value,
-  innerHtml = false,
-  attribute = 'content',
-}) => {
-  // Content is sometimes inside the tag as an attribute, or between the tag as inner content
-  return innerHtml
-    ? document.querySelector(`${element}[${prop}^='${value}']`)?.innerHTML
-    : document
-        .querySelector(`${element}[${prop}^='${value}']`)
-        ?.getAttribute(attribute)
-}
-
-const getAllElementsByPropSelector = ({ element, prop, value }) => {
-  return document.querySelectorAll(`${element}[${prop}^='${value}']`) || []
-}
-
 const extractDocMetadata = () => {
   // get defaults first
   const title = document.title || ''
@@ -68,18 +56,9 @@ const extractDocMetadata = () => {
     attribute: 'href',
   })
   const url = cannonicalUrl || document.location.href
-  // check for LDJson linked data, return that if present
-  const LDJson = getElementContentByPropSelector({
-    element: 'script',
-    prop: 'type',
-    value: 'application/ld+json',
-    innerHtml: true,
-  })
-  if (LDJson) {
-    const documentMeta = JSON.parse(LDJson)
-    const { headline, description, mainEntityOfPage } = documentMeta
-    return { title: headline, text: description, url: mainEntityOfPage['@id'] }
-  }
+
+  let metadata = { url, text: description, title }
+
   const openGraphData = Array.from(
     getAllElementsByPropSelector({
       element: 'meta',
@@ -88,7 +67,7 @@ const extractDocMetadata = () => {
     })
   )
   const hasOpenGraph = openGraphData.length
-  // check for OpenGraph linked data, return that if LDJson not present
+  // check for OpenGraph linked data, override the fields that are available
   if (hasOpenGraph) {
     let graphData = {}
     openGraphData.forEach((item) => {
@@ -102,18 +81,33 @@ const extractDocMetadata = () => {
       }
     })
     const { title, description, url } = graphData
-    return { title, text: description, url }
+    const openGraphMetadata = filterObjectFromNullValues({
+      title,
+      text: description,
+      url,
+    })
+    metadata = { ...metadata, ...openGraphMetadata }
   }
-  // return defaults if previous metadata is not available
-  return { title, text: description, url }
-}
 
-const isInternalLink = (url, host) => {
-  return url.host === host
-}
-
-const isSharingLink = (element) => {
-  return element.classList.contains('fp-bridget__webview-social')
+  // check for LDJson linked data, override the fields that are available
+  const LDJson = getElementContentByPropSelector({
+    element: 'script',
+    prop: 'type',
+    value: 'application/ld+json',
+    innerHtml: true,
+  })
+  if (LDJson) {
+    const documentMeta = JSON.parse(LDJson)
+    const { headline, description, mainEntityOfPage } = documentMeta
+    const ldJsonMetadata = filterObjectFromNullValues({
+      title: headline,
+      text: description,
+      url: mainEntityOfPage ? mainEntityOfPage['@id'] : null,
+    })
+    metadata = { ...metadata, ...ldJsonMetadata }
+  }
+  // returns default metadata for the fields that are not available through LDJSON and OpenGraph
+  return metadata
 }
 
 const actionFromElementLinkType = (element) => {
