@@ -12,27 +12,23 @@ const fireAction = (action) => {
 }
 
 bridge.navigateToDoc = (path) => {
-  window.ReactNativeWebView.postMessage(
-    JSON.stringify({
-      type: 'navigate',
-      payload: {
-        to: 'document',
-        path,
-      },
-    })
-  )
+  fireAction({
+    type: 'navigate',
+    payload: {
+      to: 'document',
+      path,
+    },
+  })
 }
 
 bridge.navigateExternally = (url) => {
-  window.ReactNativeWebView.postMessage(
-    JSON.stringify({
-      type: 'navigate',
-      payload: {
-        to: 'external',
-        url,
-      },
-    })
-  )
+  fireAction({
+    type: 'navigate',
+    payload: {
+      to: 'external',
+      url,
+    },
+  })
 }
 
 bridge.shareDoc = (spec) => {
