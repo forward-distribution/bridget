@@ -16,8 +16,8 @@ bridge.navigateToDoc = (path) => {
     type: 'navigate',
     payload: {
       to: 'document',
-      path,
-    },
+      path
+    }
   })
 }
 
@@ -26,8 +26,8 @@ bridge.navigateExternally = (url) => {
     type: 'navigate',
     payload: {
       to: 'external',
-      url,
-    },
+      url
+    }
   })
 }
 
@@ -35,7 +35,7 @@ bridge.shareDoc = (spec) => {
   validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
     fireAction({
       type: 'shareDoc',
-      payload: spec,
+      payload: spec
     })
   )
 }
@@ -44,7 +44,7 @@ bridge.propagateDocumentMetadata = (spec) => {
   validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
     fireAction({
       type: 'propagateDocumentMetadata',
-      payload: spec,
+      payload: spec
     })
   )
 }

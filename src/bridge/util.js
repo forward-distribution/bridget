@@ -3,7 +3,7 @@ const getElementContentByPropSelector = ({
   prop,
   value,
   innerHtml = false,
-  attribute = 'content',
+  attribute = 'content'
 }) => {
   // Content is sometimes inside the tag as an attribute, or between the tag as inner content
   return innerHtml

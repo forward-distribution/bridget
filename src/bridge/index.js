@@ -47,13 +47,13 @@ const extractDocMetadata = () => {
     getElementContentByPropSelector({
       element: 'meta',
       prop: 'name',
-      value: 'description',
+      value: 'description'
     }) || ''
   const cannonicalUrl = getElementContentByPropSelector({
     element: 'link',
     prop: 'rel',
     value: 'canonical',
-    attribute: 'href',
+    attribute: 'href'
   })
   const url = cannonicalUrl || document.location.href
 
@@ -63,7 +63,7 @@ const extractDocMetadata = () => {
     getAllElementsByPropSelector({
       element: 'meta',
       prop: 'property',
-      value: 'og:',
+      value: 'og:'
     })
   )
   const hasOpenGraph = openGraphData.length
@@ -76,7 +76,7 @@ const extractDocMetadata = () => {
         const content = item.getAttribute('content')
         graphData = {
           ...graphData,
-          [`${property.replace('og:', '')}`]: content,
+          [`${property.replace('og:', '')}`]: content
         }
       }
     })
@@ -84,7 +84,7 @@ const extractDocMetadata = () => {
     const openGraphMetadata = filterObjectFromNullValues({
       title,
       text: description,
-      url,
+      url
     })
     metadata = { ...metadata, ...openGraphMetadata }
   }
@@ -94,7 +94,7 @@ const extractDocMetadata = () => {
     element: 'script',
     prop: 'type',
     value: 'application/ld+json',
-    innerHtml: true,
+    innerHtml: true
   })
   if (LDJson) {
     const documentMeta = JSON.parse(LDJson)
@@ -102,7 +102,7 @@ const extractDocMetadata = () => {
     const ldJsonMetadata = filterObjectFromNullValues({
       title: headline,
       text: description,
-      url: mainEntityOfPage ? mainEntityOfPage['@id'] : null,
+      url: mainEntityOfPage ? mainEntityOfPage['@id'] : null
     })
     metadata = { ...metadata, ...ldJsonMetadata }
   }
