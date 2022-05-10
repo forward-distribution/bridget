@@ -18,6 +18,9 @@ const applyLinkingListener = () => {
   document.addEventListener(
     'click',
     (e) => {
+      // if something else decides that the default events should be prevented
+      // we take it into consideration
+      if (e.defaultPrevented) return
       const element = e.target.closest('a')
       element &&
         element.addEventListener('click', userActionHandler, { once: true })
@@ -128,6 +131,9 @@ const actionFromElementLinkType = (element) => {
 }
 
 const userActionHandler = (event) => {
+  // if default event was prevented, return early
+  // something else handles it and no navigation should be performed
+  if (event.defaultPrevented) return
   event.preventDefault()
   const element = event.target.closest('a')
   const actionObject = actionFromElementLinkType(element)
