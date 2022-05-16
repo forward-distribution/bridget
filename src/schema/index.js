@@ -6,7 +6,7 @@ const buildAjv = () => {
     verbose: true,
     useDefaults: true,
     allErrors: true,
-    jsonPointers: true,
+    jsonPointers: true
   })
   validator.addSchema([shareDoc])
   validator.addFormat('parametrized-text', /.*/)
@@ -27,7 +27,7 @@ const parseErrors = (schema, spec, errors) => {
 }
 
 export const schemaIds = {
-  shareDoc: shareDoc.$id,
+  shareDoc: shareDoc.$id
 }
 
 export default buildAjv

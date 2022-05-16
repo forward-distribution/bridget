@@ -17,13 +17,13 @@
             "semi": false,
             "printWidth": 80,
             "singleQuote": true,
-            "trailingComma": "es5"
+            "trailingComma": "none"
         }],
         "indent": "off",
         "semi": ["error", "never"],
         "comma-dangle": ["error", {
-            "arrays": "always-multiline",
-            "objects": "always-multiline",
+            "arrays": "never",
+            "objects": "never",
             "imports": "never",
             "exports": "never",
             "functions": "never"
