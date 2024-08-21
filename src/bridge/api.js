@@ -49,4 +49,13 @@ bridge.propagateDocumentMetadata = (spec) => {
   )
 }
 
+bridge.propagateContentRectangle = (spec) => {
+  validateBeforeCall(schemaIds.contentRectangle, spec, v, () =>
+    fireAction({
+      type: 'propagateContentRectangle',
+      payload: spec
+    })
+  )
+}
+
 export default bridge
