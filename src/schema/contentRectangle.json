@@ -3,16 +3,16 @@
     "type": "object",
     "properties": {
       "top": {
-        "type": "string"
+        "type": "number"
       },
       "left": {
-        "type": "string"
+        "type": "number"
       },
       "width": {
-        "type": "string"
+        "type": "number"
       },
       "height": {
-        "type": "string"
+        "type": "number"
       }
     },
     "required": [
