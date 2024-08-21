@@ -1,0 +1,24 @@
+{
+    "$id": "shareDoc.json#",
+    "type": "object",
+    "properties": {
+      "top": {
+        "type": "string"
+      },
+      "left": {
+        "type": "string"
+      },
+      "width": {
+        "type": "string"
+      },
+      "height": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "top",
+      "left",
+      "width",
+      "height"
+    ]
+  }
