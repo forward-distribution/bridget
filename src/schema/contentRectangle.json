@@ -1,5 +1,5 @@
 {
-    "$id": "shareDoc.json#",
+    "$id": "contentRectangle.json#",
     "type": "object",
     "properties": {
       "top": {
