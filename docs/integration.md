@@ -175,6 +175,29 @@ Opens a native share sheet with the supplied spec.
 bridget.shareDoc(spec)
 ```
 
+---
+
+### `window.bridget.propagateContentRectangle`
+This method propagates the article's bounding rectangle properties.
+
+| Prop   | Required | Type   |
+|--------| --------- |--------|
+| top    | Yes       | Number |
+| left   | Yes       | Number |
+| width  | Yes       | Number |
+| height | Yes       | Number |
+
+```js
+/**
+ * @typedef {object} spec
+ * @property {number} top - The y-coordinate of the rectangle's top edge.
+ * @property {number} left - The x-coordinate of the rectangle's left edge.
+ * @property {number} width - The width of the rectangle.
+ * @property {number} height - The height of the rectangle.
+ */
+bridget.propagateContentRectangle(spec)
+```
+
 ## Hiding specific web components
 
 This part of the API focuses on removing certain components that might appear in the `web delivery that don't make sense in a mobile context or have a native counterpart component.
