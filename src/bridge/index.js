@@ -166,7 +166,22 @@ const userActionHandler = (event) => {
   }
 }
 
+const scheudleApplyStyles() = () => {
+  var executed  = false
+  document.addListener('readystatechange', () => {
+    if (executed) return
+    if (document.readyState === 'interactive') {
+      executed = true
+      applyStyles()
+    }
+  })
+}
+
 export const initBridget = (opts = {}) => {
-  applyStyles()
+  if (document.readyState === 'interactive') {
+    applyStyles()
+  } else {
+    scheduleApplyStyles()
+  }
   scheduleDomContentLoadedActions()
 }
