@@ -10,7 +10,7 @@ const buildAjv = () => {
     allErrors: true,
     jsonPointers: true
   })
-  validator.addSchema([shareDoc, contentRectangle])
+  validator.addSchema([shareDoc, contentRectangle, nativeAction])
   validator.addFormat('parametrized-text', /.*/)
   return validator
 }
