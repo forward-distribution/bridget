@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/forward-distribution/bridget/compare/v1.7.0...v1.8.0) (2024-11-15)
+
+
+### Features
+
+* implement native action propagator ([ccb773b](https://github.com/forward-distribution/bridget/commit/ccb773bdbca2ba71db0f7ec72f1ad81db9e0eb63))
+
 ## [1.7.0](https://github.com/forward-distribution/bridget/compare/v1.6.2...v1.7.0) (2024-08-21)
 
 
