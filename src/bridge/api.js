@@ -58,4 +58,13 @@ bridge.propagateContentRectangle = (spec) => {
   )
 }
 
+bridge.propagateNativeAction = (spec) => {
+  validateBeforeCall(schemaIds.nativeAction, spec, v, () =>
+    fireAction({
+      type: 'propagateNativeAction',
+      payload: spec
+    })
+  )
+}
+
 export default bridge

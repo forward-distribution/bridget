@@ -1,6 +1,7 @@
 import ajv from 'ajv'
 import * as shareDoc from './shareDoc.json'
 import * as contentRectangle from './contentRectangle.json'
+import * as nativeAction from './nativeAction.json'
 
 const buildAjv = () => {
   const validator = ajv({
@@ -29,7 +30,8 @@ const parseErrors = (schema, spec, errors) => {
 
 export const schemaIds = {
   shareDoc: shareDoc.$id,
-  contentRectangle: contentRectangle.$id
+  contentRectangle: contentRectangle.$id,
+  nativeAction: nativeAction.$id
 }
 
 export default buildAjv
