@@ -10,13 +10,13 @@ export default {
     {
       file: 'dist/bridget.cjs',
       format: 'cjs',
-      plugins: outputPlugins
+      plugins: outputPlugins,
     },
     {
       file: 'dist/bridget.js',
       format: 'es',
-      plugins: outputPlugins
-    }
+      plugins: outputPlugins,
+    },
   ],
-  plugins: defaultPlugins
+  plugins: defaultPlugins,
 }

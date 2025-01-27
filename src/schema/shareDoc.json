@@ -1,20 +1,16 @@
 {
-    "$id": "shareDoc.json#",
-    "type": "object",
-    "properties": {
-      "title": {
-        "type": "string"
-      },
-      "text": {
-        "type": "string"
-      },
-      "url": {
-        "type": "string"
-      }
+  "$id": "shareDoc.json#",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
     },
-    "required": [
-      "title",
-      "text",
-      "url"
-    ]
-  }
+    "text": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  },
+  "required": ["title", "text", "url"]
+}

@@ -8,7 +8,7 @@ const buildAjv = () => {
     verbose: true,
     useDefaults: true,
     allErrors: true,
-    jsonPointers: true
+    jsonPointers: true,
   })
   validator.addSchema([shareDoc, contentRectangle, nativeAction])
   validator.addFormat('parametrized-text', /.*/)
@@ -31,7 +31,7 @@ const parseErrors = (schema, spec, errors) => {
 export const schemaIds = {
   shareDoc: shareDoc.$id,
   contentRectangle: contentRectangle.$id,
-  nativeAction: nativeAction.$id
+  nativeAction: nativeAction.$id,
 }
 
 export default buildAjv

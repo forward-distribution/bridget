@@ -3,7 +3,7 @@ const getElementContentByPropSelector = ({
   prop,
   value,
   innerHtml = false,
-  attribute = 'content'
+  attribute = 'content',
 }) => {
   // Content is sometimes inside the tag as an attribute, or between the tag as inner content
   return innerHtml
@@ -21,11 +21,11 @@ const isInternalLink = (url, host) => {
   return url.host === host
 }
 
-const isSharingLink = (element) => {
+const isSharingLink = element => {
   return element.classList.contains('fp-bridget__webview-social')
 }
 
-const filterObjectFromNullValues = (obj) => {
+const filterObjectFromNullValues = obj => {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v))
 }
 
@@ -34,5 +34,5 @@ export {
   getAllElementsByPropSelector,
   filterObjectFromNullValues,
   isInternalLink,
-  isSharingLink
+  isSharingLink,
 }

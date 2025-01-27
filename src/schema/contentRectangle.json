@@ -1,24 +1,19 @@
 {
-    "$id": "contentRectangle.json#",
-    "type": "object",
-    "properties": {
-      "top": {
-        "type": "number"
-      },
-      "left": {
-        "type": "number"
-      },
-      "width": {
-        "type": "number"
-      },
-      "height": {
-        "type": "number"
-      }
+  "$id": "contentRectangle.json#",
+  "type": "object",
+  "properties": {
+    "top": {
+      "type": "number"
     },
-    "required": [
-      "top",
-      "left",
-      "width",
-      "height"
-    ]
-  }
+    "left": {
+      "type": "number"
+    },
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    }
+  },
+  "required": ["top", "left", "width", "height"]
+}

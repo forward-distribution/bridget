@@ -1,69 +1,72 @@
-import schemaValidator, { schemaIds, validateBeforeCall } from '../schema/index.js'
+import schemaValidator, {
+  schemaIds,
+  validateBeforeCall,
+} from '../schema/index.js'
 
 const v = schemaValidator()
 
 const bridge = {}
 
-const fireAction = (action) => {
+const fireAction = action => {
   console.log('Firing action', action.type)
   window &&
     window.ReactNativeWebView &&
     window.ReactNativeWebView.postMessage(JSON.stringify(action))
 }
 
-bridge.navigateToDoc = (path) => {
+bridge.navigateToDoc = path => {
   fireAction({
     type: 'navigate',
     payload: {
       to: 'document',
-      path
-    }
+      path,
+    },
   })
 }
 
-bridge.navigateExternally = (url) => {
+bridge.navigateExternally = url => {
   fireAction({
     type: 'navigate',
     payload: {
       to: 'external',
-      url
-    }
+      url,
+    },
   })
 }
 
-bridge.shareDoc = (spec) => {
+bridge.shareDoc = spec => {
   validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
     fireAction({
       type: 'shareDoc',
-      payload: spec
-    })
+      payload: spec,
+    }),
   )
 }
 
-bridge.propagateDocumentMetadata = (spec) => {
+bridge.propagateDocumentMetadata = spec => {
   validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
     fireAction({
       type: 'propagateDocumentMetadata',
-      payload: spec
-    })
+      payload: spec,
+    }),
   )
 }
 
-bridge.propagateContentRectangle = (spec) => {
+bridge.propagateContentRectangle = spec => {
   validateBeforeCall(schemaIds.contentRectangle, spec, v, () =>
     fireAction({
       type: 'propagateContentRectangle',
-      payload: spec
-    })
+      payload: spec,
+    }),
   )
 }
 
-bridge.propagateNativeAction = (spec) => {
+bridge.propagateNativeAction = spec => {
   validateBeforeCall(schemaIds.nativeAction, spec, v, () =>
     fireAction({
       type: 'propagateNativeAction',
-      payload: spec
-    })
+      payload: spec,
+    }),
   )
 }
 

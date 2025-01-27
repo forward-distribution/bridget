@@ -4,7 +4,7 @@ import {
   getAllElementsByPropSelector,
   filterObjectFromNullValues,
   isInternalLink,
-  isSharingLink
+  isSharingLink,
 } from './util'
 
 const scheduleDomContentLoadedActions = () => {
@@ -17,7 +17,7 @@ const scheduleDomContentLoadedActions = () => {
 const applyLinkingListener = () => {
   document.addEventListener(
     'click',
-    (e) => {
+    e => {
       // if something else decides that the default events should be prevented
       // we take it into consideration
       if (e.defaultPrevented) return
@@ -25,7 +25,7 @@ const applyLinkingListener = () => {
       element &&
         element.addEventListener('click', userActionHandler, { once: true })
     },
-    { capture: true }
+    { capture: true },
   )
 }
 
@@ -38,7 +38,7 @@ const applyStyles = () => {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.appendChild(
-    document.createTextNode('.fp-bridget__webview-hidden {display:none;}')
+    document.createTextNode('.fp-bridget__webview-hidden {display:none;}'),
   )
   document.head.append(style)
 }
@@ -50,13 +50,13 @@ const extractDocMetadata = () => {
     getElementContentByPropSelector({
       element: 'meta',
       prop: 'name',
-      value: 'description'
+      value: 'description',
     }) || ''
   const cannonicalUrl = getElementContentByPropSelector({
     element: 'link',
     prop: 'rel',
     value: 'canonical',
-    attribute: 'href'
+    attribute: 'href',
   })
   const url = cannonicalUrl || document.location.href
 
@@ -66,20 +66,20 @@ const extractDocMetadata = () => {
     getAllElementsByPropSelector({
       element: 'meta',
       prop: 'property',
-      value: 'og:'
-    })
+      value: 'og:',
+    }),
   )
   const hasOpenGraph = openGraphData.length
   // check for OpenGraph linked data, override the fields that are available
   if (hasOpenGraph) {
     let graphData = {}
-    openGraphData.forEach((item) => {
+    openGraphData.forEach(item => {
       if (item.hasAttribute('property') && item.hasAttribute('content')) {
         const property = item.getAttribute('property')
         const content = item.getAttribute('content')
         graphData = {
           ...graphData,
-          [`${property.replace('og:', '')}`]: content
+          [`${property.replace('og:', '')}`]: content,
         }
       }
     })
@@ -87,7 +87,7 @@ const extractDocMetadata = () => {
     const openGraphMetadata = filterObjectFromNullValues({
       title,
       text: description,
-      url
+      url,
     })
     metadata = { ...metadata, ...openGraphMetadata }
   }
@@ -97,7 +97,7 @@ const extractDocMetadata = () => {
     element: 'script',
     prop: 'type',
     value: 'application/ld+json',
-    innerHtml: true
+    innerHtml: true,
   })
   if (LDJson) {
     const documentMeta = JSON.parse(LDJson)
@@ -105,7 +105,7 @@ const extractDocMetadata = () => {
     const ldJsonMetadata = filterObjectFromNullValues({
       title: headline,
       text: description,
-      url: mainEntityOfPage ? mainEntityOfPage['@id'] : null
+      url: mainEntityOfPage ? mainEntityOfPage['@id'] : null,
     })
     metadata = { ...metadata, ...ldJsonMetadata }
   }
@@ -113,7 +113,7 @@ const extractDocMetadata = () => {
   return metadata
 }
 
-const actionFromElementLinkType = (element) => {
+const actionFromElementLinkType = element => {
   const { href } = element
   const location = window.location
   const constructedUrl = new URL(href, location.origin)
@@ -130,7 +130,7 @@ const actionFromElementLinkType = (element) => {
   return { type: 'external', spec: { url: href } }
 }
 
-const userActionHandler = (event) => {
+const userActionHandler = event => {
   // if default event was prevented, return early
   // something else handles it and no navigation should be performed
   if (event.defaultPrevented) return
@@ -155,7 +155,7 @@ const userActionHandler = (event) => {
           .then(() => {
             console.log('Web Shared successful')
           })
-          .catch((e) => {
+          .catch(e => {
             console.error(e)
           })
       } else {
