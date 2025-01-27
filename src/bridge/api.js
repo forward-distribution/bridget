@@ -1,4 +1,4 @@
-import schemaValidator, { schemaIds, validateBeforeCall } from '../schema'
+import schemaValidator, { schemaIds, validateBeforeCall } from '../schema/index.js'
 
 const v = schemaValidator()
 
