@@ -1,11 +1,12 @@
-import bridge from './api.js'
+export * from './api.js'
+import * as bridge from './api.js'
 import {
   getElementContentByPropSelector,
   getAllElementsByPropSelector,
   filterObjectFromNullValues,
   isInternalLink,
   isSharingLink,
-} from './util'
+} from './util.js'
 
 const scheduleDomContentLoadedActions = () => {
   document.addEventListener('DOMContentLoaded', () => {
@@ -166,7 +167,12 @@ const userActionHandler = event => {
   }
 }
 
-export const initBridget = (opts = {}) => {
-  applyStyles()
-  scheduleDomContentLoadedActions()
+export const initBridget = (
+  opts = { globalName: 'Bridget', globalObject: window },
+) => {
+  if (opts.globalObject[opts.globalName] == null) {
+    opts.globalObject[opts.globalName] = bridge
+    applyStyles(opts)
+    scheduleDomContentLoadedActions(opts)
+  }
 }

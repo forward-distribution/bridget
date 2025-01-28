@@ -1,11 +1,16 @@
-import schemaValidator, {
-  schemaIds,
-  validateBeforeCall,
-} from '../schema/index.js'
+import shareDocValidator from '../compiled-schema/shareDoc.cjs'
+import contentRectangleValidator from '../compiled-schema/contentRectangle.cjs'
+import nativeActionValidator from '../compiled-schema/nativeAction.cjs'
 
-const v = schemaValidator()
-
-const bridge = {}
+const validateBeforeCall = (validator, spec, fn) => {
+  if (validator(spec)) {
+    fn()
+  } else {
+    for (const error of validator.errors) {
+      console.error(error)
+    }
+  }
+}
 
 const fireAction = action => {
   console.log('Firing action', action.type)
@@ -14,7 +19,7 @@ const fireAction = action => {
     window.ReactNativeWebView.postMessage(JSON.stringify(action))
 }
 
-bridge.navigateToDoc = path => {
+export const navigateToDoc = path => {
   fireAction({
     type: 'navigate',
     payload: {
@@ -24,7 +29,7 @@ bridge.navigateToDoc = path => {
   })
 }
 
-bridge.navigateExternally = url => {
+export const navigateExternally = url => {
   fireAction({
     type: 'navigate',
     payload: {
@@ -34,8 +39,8 @@ bridge.navigateExternally = url => {
   })
 }
 
-bridge.shareDoc = spec => {
-  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+export const shareDoc = spec => {
+  validateBeforeCall(shareDocValidator, spec, () =>
     fireAction({
       type: 'shareDoc',
       payload: spec,
@@ -43,8 +48,8 @@ bridge.shareDoc = spec => {
   )
 }
 
-bridge.propagateDocumentMetadata = spec => {
-  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+export const propagateDocumentMetadata = spec => {
+  validateBeforeCall(shareDocValidator, spec, () =>
     fireAction({
       type: 'propagateDocumentMetadata',
       payload: spec,
@@ -52,8 +57,8 @@ bridge.propagateDocumentMetadata = spec => {
   )
 }
 
-bridge.propagateContentRectangle = spec => {
-  validateBeforeCall(schemaIds.contentRectangle, spec, v, () =>
+export const propagateContentRectangle = spec => {
+  validateBeforeCall(contentRectangleValidator, spec, () =>
     fireAction({
       type: 'propagateContentRectangle',
       payload: spec,
@@ -61,8 +66,8 @@ bridge.propagateContentRectangle = spec => {
   )
 }
 
-bridge.propagateNativeAction = spec => {
-  validateBeforeCall(schemaIds.nativeAction, spec, v, () =>
+export const propagateNativeAction = spec => {
+  validateBeforeCall(nativeActionValidator, spec, () =>
     fireAction({
       type: 'propagateNativeAction',
       payload: spec,
@@ -70,4 +75,5 @@ bridge.propagateNativeAction = spec => {
   )
 }
 
-export default bridge
+export const isActive = () =>
+  window.Klidare != null || window.ReactNativeWebView != null

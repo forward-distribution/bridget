@@ -8,10 +8,11 @@ const swcOpts = kind => ({
   exclude: '**/*.json',
   swc: {
     env: {
-      debug: true,
-      mode: 'usage',
-      coreJs: '3.40.0',
-      targets: kind === 'modern' ? 'defaults' : 'since 2015, not dead',
+      ...(kind === 'modern' ? {} : { mode: 'usage', coreJs: '3.40.0' }),
+      targets:
+        kind === 'modern'
+          ? 'fully supports es6-module and not op_mini all and not dead'
+          : 'since 2015 and not dead',
     },
 
     module: {
@@ -20,14 +21,19 @@ const swcOpts = kind => ({
   },
 })
 
-// const outputPlugins = [terser()]
-const outputPlugins = []
+const outputPlugins = [terser()]
 const commonOptions = {
   sourcemap: true,
 }
 
 const defaultPlugins = [resolve(), commonjs(), json()]
 
+// The gist of this configuration is
+// - use modern javascript syntax (hence ecmaVersion: 2022)
+// - don't use API that's not available in browsers since they support the module syntax
+//
+// This way we can produce a very small bundle for browsers since 2017 (supporting <script module='...')
+// and fall back to full blown polyfilled bundle with <script nomodule>
 export default [
   {
     input: 'src/bridget.js',

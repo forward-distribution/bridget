@@ -6,51 +6,44 @@
   },
   "type": "module",
   "version": "1.8.1",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "description": "Bridging mechanism for a two-way communication system between a webview & web (js).",
-  "main": "./dist/bridget.js",
+  "main": "./dist/legacy/bridget.js",
+  "exports": {
+    ".": "./dist/bridget.js"
+  },
   "scripts": {
+    "postinstall": "./scripts/schemagen.sh ./node_modules/.bin/ajv ./src/schema ./src/compiled-schema",
     "release": "standard-version && git push --follow-tags origin master",
     "prebuild": "rimraf dist",
-    "build": "npm-run-all --parallel build:*",
-    "build:prod": "webpack --mode=production --output-filename bridget.min.js",
-    "build:dev": "webpack --mode=development --output-filename bridget.js",
+    "build": "rollup -c",
     "lint": "eslint .",
     "prettier": "eslint . --fix"
   },
   "keywords": [],
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 20.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@eslint/js": "^9.19.0",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-swc": "^0.4.0",
     "@rollup/plugin-terser": "^0.4.4",
-    "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.9",
-    "babel-loader": "^8.2.2",
+    "ajv-cli": "^5.0.0",
     "browserslist": "^4.24.4",
     "core-js": "^3.40.0",
-    "eslint": "^7.22.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "npm-run-all": "^4.1.5",
+    "eslint": "^9.19.0",
+    "eslint-plugin-compat": "^6.0.2",
+    "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "rimraf": "^3.0.2",
-    "rollup": "^4.32.0",
-    "standard-version": "^9.3.2",
-    "webpack": "^5.24.4",
-    "webpack-cli": "^4.5.0"
+    "rollup": "^4.32.0"
   },
-  "dependencies": {
-    "ajv": "^8.17.1"
-  }
+  "overrides": {
+    "fast-json-patch": "3.1.1"
+  },
+  "browserslist": ["fully supports es6-module and not op_mini all and not dead"]
 }

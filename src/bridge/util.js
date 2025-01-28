@@ -26,7 +26,13 @@ const isSharingLink = element => {
 }
 
 const filterObjectFromNullValues = obj => {
-  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v))
+  const result = {}
+  for (const p in obj) {
+    if (obj[p] != null) {
+      result[p] = obj[p]
+    }
+  }
+  return result
 }
 
 export {

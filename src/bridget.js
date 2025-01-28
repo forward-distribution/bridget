@@ -1,12 +1,6 @@
-import { initBridget } from './bridge/index.js'
-import bridge from './bridge/api.js'
+import { initBridget, isActive } from './bridge/index.js'
 
-const isWebview = () => !!window.ReactNativeWebView
-
-if (isWebview()) {
+if (isActive()) {
   console.log('<--- Initializing Bridget --->')
   initBridget()
 }
-
-export { isWebview, bridge }
-export default { isWebview, bridge }
