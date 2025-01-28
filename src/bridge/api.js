@@ -12,12 +12,18 @@ const validateBeforeCall = (validator, spec, fn) => {
   }
 }
 
-const fireAction = action => {
-  console.log('Firing action', action.type)
-  window &&
-    window.ReactNativeWebView &&
-    window.ReactNativeWebView.postMessage(JSON.stringify(action))
+const fireActionVia = (object, action) => {
+  if (object?.postMessage != null) {
+    console.log('Firing action', action.type)
+    object?.postMessage(JSON.stringify(action))
+    return true
+  }
+  return false
 }
+
+const fireAction = action =>
+  fireActionVia(window.Kildare, action) ||
+  fireActionVia(window.ReactNativeWebView, action)
 
 export const navigateToDoc = path => {
   fireAction({
@@ -76,4 +82,4 @@ export const propagateNativeAction = spec => {
 }
 
 export const isActive = () =>
-  window.Klidare != null || window.ReactNativeWebView != null
+  window.Kildare != null || window.ReactNativeWebView != null
