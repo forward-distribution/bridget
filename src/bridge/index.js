@@ -168,7 +168,7 @@ const userActionHandler = event => {
 }
 
 export const initBridget = (
-  opts = { globalName: 'Bridget', globalObject: window },
+  opts = { globalName: 'bridget', globalObject: window },
 ) => {
   if (opts.globalObject[opts.globalName] == null) {
     opts.globalObject[opts.globalName] = bridge
