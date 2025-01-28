@@ -17,7 +17,6 @@ website's hyperlinks into actions that the Forward Publishing Mobile App uses to
 # 📖 Documentation
 
 Check out the [documentation](https://forward-distribution.github.io/bridget/).
- 
 # 📝 Changelog
 
 Browse the [change log](./CHANGELOG.md) for the latest release information.

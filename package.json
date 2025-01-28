@@ -26,11 +26,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
+    "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-swc": "^0.4.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.9",
     "babel-loader": "^8.2.2",
+    "browserslist": "^4.24.4",
+    "core-js": "^3.40.0",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -46,6 +51,6 @@
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
-    "ajv": "^6.12.6"
+    "ajv": "^8.17.1"
   }
 }
