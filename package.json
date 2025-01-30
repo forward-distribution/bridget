@@ -18,7 +18,8 @@
     "prebuild": "rimraf dist",
     "build": "rollup -c",
     "lint": "eslint .",
-    "prettier": "eslint . --fix"
+    "prettier": "eslint . --fix",
+    "playground": "npx serve -c test/serve.json"
   },
   "keywords": [],
   "engines": {

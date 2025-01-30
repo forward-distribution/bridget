@@ -1,5 +1,4 @@
-export * from './api.js'
-import * as bridge from './api.js'
+import makeBridge from './api.js'
 import {
   getElementContentByPropSelector,
   getAllElementsByPropSelector,
@@ -8,14 +7,14 @@ import {
   isSharingLink,
 } from './util.js'
 
-const scheduleDomContentLoadedActions = () => {
+const scheduleDomContentLoadedActions = (_, bridge) => {
   document.addEventListener('DOMContentLoaded', () => {
-    applyLinkingListener()
-    propagateDocumentMetadata()
+    applyLinkingListener(bridge)
+    propagateDocumentMetadata(bridge)
   })
 }
 
-const applyLinkingListener = () => {
+const applyLinkingListener = bridge => {
   document.addEventListener(
     'click',
     e => {
@@ -24,13 +23,15 @@ const applyLinkingListener = () => {
       if (e.defaultPrevented) return
       const element = e.target.closest('a')
       element &&
-        element.addEventListener('click', userActionHandler, { once: true })
+        element.addEventListener('click', userActionHandler(bridge), {
+          once: true,
+        })
     },
     { capture: true },
   )
 }
 
-const propagateDocumentMetadata = () => {
+const propagateDocumentMetadata = bridge => {
   const documentMetadata = extractDocMetadata()
   bridge.propagateDocumentMetadata(documentMetadata)
 }
@@ -131,7 +132,7 @@ const actionFromElementLinkType = element => {
   return { type: 'external', spec: { url: href } }
 }
 
-const userActionHandler = event => {
+const userActionHandler = bridge => event => {
   // if default event was prevented, return early
   // something else handles it and no navigation should be performed
   if (event.defaultPrevented) return
@@ -168,11 +169,32 @@ const userActionHandler = event => {
 }
 
 export const initBridget = (
-  opts = { globalName: 'bridget', globalObject: window },
+  opts = {
+    globalName: 'bridget',
+    globalObject: window,
+    conduits: ['Kildare', 'ReactNativeWebView'],
+  },
 ) => {
   if (opts.globalObject[opts.globalName] == null) {
-    opts.globalObject[opts.globalName] = bridge
-    applyStyles(opts)
-    scheduleDomContentLoadedActions(opts)
+    const conduit = opts.conduits.find(c => window[c] != null)
+    if (conduit != null) {
+      console.log('<--- Initializing Bridget with conduit: ', conduit)
+      const bridge = makeBridge(window[conduit])
+      opts.globalObject[opts.globalName] = bridge
+      // deprecated
+      opts.globalObject[opts.globalName].bridge = bridge
+      opts.globalObject[opts.globalName].isWebview = bridge.isActive
+
+      // attachments
+      applyStyles(opts, bridge)
+      scheduleDomContentLoadedActions(opts, bridge)
+    } else {
+      opts.globalObject[opts.globalName] = {
+        isActive: () => false,
+        isWebview: () => false,
+      }
+    }
   }
 }
+
+export { makeBridge }
