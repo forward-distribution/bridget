@@ -21,7 +21,7 @@ This integration guide assumes:
 
 ### Installation via script tag
 ```html
-<script module="https://unpkg.com/@forward-distribution/bridget@:version/dist/bridget.js">
+<script type="module" src="https://unpkg.com/@forward-distribution/bridget@:version/dist/bridget.js">
   // The module will bootstrap itself when imported, if it is in the correct context (mobile webview)
 </script>
 <!-- fallback for older browsers -->
