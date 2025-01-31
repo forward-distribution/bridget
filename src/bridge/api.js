@@ -1,8 +1,4 @@
-import {
-  shareDoc as shareDocValidator,
-  contentRectangle as contentRectangleValidator,
-  nativeAction as nativeActionValidator,
-} from '../compiled-schema/index.js'
+import * as validators from '../compiled-schema/index.js'
 
 export default conduit => {
   const validateBeforeCall = (validator, spec, fn) => {
@@ -45,7 +41,7 @@ export default conduit => {
   }
 
   const shareDoc = spec => {
-    validateBeforeCall(shareDocValidator, spec, () =>
+    validateBeforeCall(validators.shareDoc, spec, () =>
       fireAction({
         type: 'shareDoc',
         payload: spec,
@@ -54,7 +50,7 @@ export default conduit => {
   }
 
   const propagateDocumentMetadata = spec => {
-    validateBeforeCall(shareDocValidator, spec, () =>
+    validateBeforeCall(validators.shareDoc, spec, () =>
       fireAction({
         type: 'propagateDocumentMetadata',
         payload: spec,
@@ -63,7 +59,7 @@ export default conduit => {
   }
 
   const propagateContentRectangle = spec => {
-    validateBeforeCall(contentRectangleValidator, spec, () =>
+    validateBeforeCall(validators.contentRectangle, spec, () =>
       fireAction({
         type: 'propagateContentRectangle',
         payload: spec,
@@ -72,7 +68,7 @@ export default conduit => {
   }
 
   const propagateNativeAction = spec => {
-    validateBeforeCall(nativeActionValidator, spec, () =>
+    validateBeforeCall(validators.nativeAction, spec, () =>
       fireAction({
         type: 'propagateNativeAction',
         payload: spec,
@@ -80,8 +76,7 @@ export default conduit => {
     )
   }
 
-  const isActive = () =>
-    window.Kildare != null || window.ReactNativeWebView != null
+  const isActive = () => conduit != null
 
   return {
     isActive,
