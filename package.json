@@ -6,7 +6,10 @@
   },
   "type": "module",
   "version": "1.8.1",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "description": "Bridging mechanism for a two-way communication system between a webview & web (js).",
   "main": "./dist/legacy/bridget.js",
   "exports": {
@@ -41,10 +44,13 @@
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "rimraf": "^3.0.2",
-    "rollup": "^4.32.0"
+    "rollup": "^4.32.0",
+    "standard-version": "^9.5.0"
   },
   "overrides": {
     "fast-json-patch": "3.1.1"
   },
-  "browserslist": ["fully supports es6-module and not op_mini all and not dead"]
+  "browserslist": [
+    "fully supports es6-module and not op_mini all and not dead"
+  ]
 }
