@@ -21,9 +21,11 @@ This integration guide assumes:
 
 ### Installation via script tag
 ```html
-<script src="https://unpkg.com/@forward-distribution/bridget">
+<script type="module" src="https://unpkg.com/@forward-distribution/bridget@:version/dist/bridget.js">
   // The module will bootstrap itself when imported, if it is in the correct context (mobile webview)
 </script>
+<!-- fallback for older browsers -->
+<script nomodule src="https://unpkg.com/@forward-distribution/bridget@:version/dist/legacy/bridget.js"></script>
 ```
 Place the above `<script>...</script>` tag into the `<head>` tag of your HTML page. It will bootstrap itself & attach a global `bridget` object. You can access it either via `bridget` or `window.bridget`.
 
@@ -36,7 +38,8 @@ Just run
 npm install -g @forward-distribution/bridget
 ```
 
-You can then `require` or `import` the lib like any other module.
+You can then  or `import` the lib like any other module. The library is using esm. You'd have to call
+initBridget() yourself.
 --->
 
 

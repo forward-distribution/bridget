@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script type="module">
+      window.Kildare = {
+        postMessage: msg => console.log('Posted Messsage ', msg),
+      }
+    </script>
+
+    <script type="module" src="../src/bridget.js" crossorigin></script>
+  </head>
+  <body>
+    <p>To Use this testing tool, you should run</p>
+    <code>
+      npm run playground
+    </code>
+    <p>And then open this file in a browser</p>
+</html>

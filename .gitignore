@@ -1,3 +1,6 @@
+dist
+src/compiled-schema
+
 # OSX
 #
 .DS_Store

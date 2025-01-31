@@ -1,16 +1,13 @@
 {
-    "$id": "nativeAction.json#",
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string"
-      },
-      "action": {
-        "type": "string"
-      }
+  "$id": "#/definitions/nativeAction",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
     },
-    "required": [
-      "type",
-      "action"
-    ]
-  }
+    "action": {
+      "type": "string"
+    }
+  },
+  "required": ["type", "action"]
+}

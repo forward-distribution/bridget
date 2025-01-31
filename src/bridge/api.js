@@ -1,70 +1,91 @@
-import schemaValidator, { schemaIds, validateBeforeCall } from '../schema'
+import * as validators from '../compiled-schema/index.js'
 
-const v = schemaValidator()
-
-const bridge = {}
-
-const fireAction = (action) => {
-  console.log('Firing action', action.type)
-  window &&
-    window.ReactNativeWebView &&
-    window.ReactNativeWebView.postMessage(JSON.stringify(action))
-}
-
-bridge.navigateToDoc = (path) => {
-  fireAction({
-    type: 'navigate',
-    payload: {
-      to: 'document',
-      path
+export default conduit => {
+  const validateBeforeCall = (validator, spec, fn) => {
+    if (validator(spec)) {
+      fn()
+    } else {
+      for (const error of validator.errors) {
+        console.error(error)
+      }
     }
-  })
-}
+  }
 
-bridge.navigateExternally = (url) => {
-  fireAction({
-    type: 'navigate',
-    payload: {
-      to: 'external',
-      url
+  const fireAction = action => {
+    if (conduit?.postMessage != null) {
+      console.log('Firing action', action.type)
+      conduit.postMessage(JSON.stringify(action))
+      return true
     }
-  })
-}
+    return false
+  }
 
-bridge.shareDoc = (spec) => {
-  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+  const navigateToDoc = path => {
     fireAction({
-      type: 'shareDoc',
-      payload: spec
+      type: 'navigate',
+      payload: {
+        to: 'document',
+        path,
+      },
     })
-  )
-}
+  }
 
-bridge.propagateDocumentMetadata = (spec) => {
-  validateBeforeCall(schemaIds.shareDoc, spec, v, () =>
+  const navigateExternally = url => {
     fireAction({
-      type: 'propagateDocumentMetadata',
-      payload: spec
+      type: 'navigate',
+      payload: {
+        to: 'external',
+        url,
+      },
     })
-  )
-}
+  }
 
-bridge.propagateContentRectangle = (spec) => {
-  validateBeforeCall(schemaIds.contentRectangle, spec, v, () =>
-    fireAction({
-      type: 'propagateContentRectangle',
-      payload: spec
-    })
-  )
-}
+  const shareDoc = spec => {
+    validateBeforeCall(validators.shareDoc, spec, () =>
+      fireAction({
+        type: 'shareDoc',
+        payload: spec,
+      }),
+    )
+  }
 
-bridge.propagateNativeAction = (spec) => {
-  validateBeforeCall(schemaIds.nativeAction, spec, v, () =>
-    fireAction({
-      type: 'propagateNativeAction',
-      payload: spec
-    })
-  )
-}
+  const propagateDocumentMetadata = spec => {
+    validateBeforeCall(validators.shareDoc, spec, () =>
+      fireAction({
+        type: 'propagateDocumentMetadata',
+        payload: spec,
+      }),
+    )
+  }
 
-export default bridge
+  const propagateContentRectangle = spec => {
+    validateBeforeCall(validators.contentRectangle, spec, () =>
+      fireAction({
+        type: 'propagateContentRectangle',
+        payload: spec,
+      }),
+    )
+  }
+
+  const propagateNativeAction = spec => {
+    validateBeforeCall(validators.nativeAction, spec, () =>
+      fireAction({
+        type: 'propagateNativeAction',
+        payload: spec,
+      }),
+    )
+  }
+
+  const isActive = () => conduit != null
+
+  return {
+    isActive,
+    propagateNativeAction,
+    propagateContentRectangle,
+    propagateDocumentMetadata,
+    shareDoc,
+    navigateToDoc,
+    navigateExternally,
+    services: conduit?.services || {},
+  }
+}
