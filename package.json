@@ -5,7 +5,7 @@
     "url": "https://github.com/forward-distribution/bridget.git"
   },
   "type": "module",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "files": [
     "dist",
     "src"
