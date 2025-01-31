@@ -1,6 +1,8 @@
-import shareDocValidator from '../compiled-schema/shareDoc.cjs'
-import contentRectangleValidator from '../compiled-schema/contentRectangle.cjs'
-import nativeActionValidator from '../compiled-schema/nativeAction.cjs'
+import {
+  shareDoc as shareDocValidator,
+  contentRectangle as contentRectangleValidator,
+  nativeAction as nativeActionValidator,
+} from '../compiled-schema/index.js'
 
 export default conduit => {
   const validateBeforeCall = (validator, spec, fn) => {

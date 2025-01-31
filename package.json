@@ -6,14 +6,14 @@
   },
   "type": "module",
   "version": "1.8.1",
-  "files": ["dist"],
+  "files": ["dist", "src"],
   "description": "Bridging mechanism for a two-way communication system between a webview & web (js).",
   "main": "./dist/legacy/bridget.js",
   "exports": {
-    ".": "./dist/bridget.js"
+    ".": "./src/bridge/index.js"
   },
   "scripts": {
-    "postinstall": "./scripts/schemagen.sh ./node_modules/.bin/ajv ./src/schema ./src/compiled-schema",
+    "postinstall": "node ./scripts/schemagen.js ./src/compiled-schema/index.js contentRectangle ./src/schema/contentRectangle.json nativeAction ./src/schema/nativeAction.json shareDoc ./src/schema/shareDoc.json",
     "release": "standard-version && git push --follow-tags origin master",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
@@ -33,7 +33,7 @@
     "@rollup/plugin-swc": "^0.4.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@swc/core": "^1.10.9",
-    "ajv-cli": "^5.0.0",
+    "ajv": "^8.17.1",
     "browserslist": "^4.24.4",
     "core-js": "^3.40.0",
     "eslint": "^9.19.0",

@@ -1,5 +1,5 @@
 {
-  "$id": "contentRectangle.json#",
+  "$id": "#/definitions/contentRectangle",
   "type": "object",
   "properties": {
     "top": {

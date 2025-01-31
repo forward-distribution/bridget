@@ -1,5 +1,5 @@
 {
-  "$id": "shareDoc.json#",
+  "$id": "#/definitions/shareDoc",
   "type": "object",
   "properties": {
     "title": {

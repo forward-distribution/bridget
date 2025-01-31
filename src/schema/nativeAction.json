@@ -1,5 +1,5 @@
 {
-  "$id": "nativeAction.json#",
+  "$id": "#/definitions/nativeAction",
   "type": "object",
   "properties": {
     "type": {
