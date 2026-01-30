@@ -9,6 +9,11 @@ on:
       - "!*"
     tags:
       - "v*.*.*"
+
+permissions:
+  id-token: write  # Required for OIDC with NPM, see: https://docs.npmjs.com/trusted-publishers
+  contents: read
+  
 jobs:
   build:
     runs-on: ubuntu-latest
